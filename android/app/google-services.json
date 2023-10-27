@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "954547536575",
+    "project_id": "jct-flutter",
+    "storage_bucket": "jct-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954547536575:android:f70f618372d6f7bc2cbc0a",
+        "android_client_info": {
+          "package_name": "com.example.jct"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF10-kdWWUkaDKDxFzJkvJIyHrBc3Z3SY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
