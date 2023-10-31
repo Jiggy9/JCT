@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:jct/screens/user/usefull/query.dart';
 import 'package:jct/widgets/user_multiple_image.dart';
 
 class RaiseComplaint extends StatefulWidget {
@@ -181,17 +180,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                             print('selectedCategory, $selectedCategory');
                             print('selectedUrgency, $selectedUrgency');
 
-                            if (selectedUrgency == 'High') {
-                              print('submitted');
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const Query(),
-                                ),
-                              );
-                            } else {
-                              print('submitted');
-                              Navigator.of(context).pop();
-                            }
+                            Navigator.of(context).pop();
                           }
                         },
                         style: ElevatedButton.styleFrom(

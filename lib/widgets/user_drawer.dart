@@ -76,6 +76,23 @@ class MainDrawer extends StatelessWidget {
               onSelectScreen('alerts');
             },
           ),
+          ListTile(
+            leading: Icon(
+              Icons.settings,
+              size: 26,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            title: Text(
+              'Settings',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen('settings');
+            },
+          ),
         ],
       ),
     );

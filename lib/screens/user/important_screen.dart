@@ -1,13 +1,13 @@
-
 import 'package:flutter/material.dart';
+
+import 'package:jct/screens/user/settings/settings_page.dart';
+import 'package:jct/screens/user/usefull/emergency_alerts_check.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
 import 'package:jct/screens/user/usefull/raise_complaint.dart';
 import 'package:jct/screens/user/usefull/reopen_complaints.dart';
 import 'package:jct/screens/user/user_complaints.dart';
-
 import 'package:jct/widgets/grid_item.dart';
-import 'package:jct/widgets/main_drawer.dart';
-import 'package:jct/screens/user/usefull/emergency_alerts.dart';
+import 'package:jct/widgets/user_drawer.dart';
 
 class ImportantScreen extends StatefulWidget {
   const ImportantScreen({super.key});
@@ -17,9 +17,6 @@ class ImportantScreen extends StatefulWidget {
 }
 
 class _ImportantScreenState extends State<ImportantScreen> {
-
-  
-  
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == 'monitoring') {
@@ -29,10 +26,23 @@ class _ImportantScreenState extends State<ImportantScreen> {
         ),
       );
     }
-    if (identifier == 'alerts') {
+    if (identifier == 'settings') {
+      if (!context.mounted) {
+        return;
+      }
       await Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => const EmergencyAlerts(),
+          builder: (context) => const SettingsPage(),
+        ),
+      );
+    }
+    if (identifier == 'alerts') {
+      if (!context.mounted) {
+        return;
+      }
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const EmergencyAlertsCheck(),
         ),
       );
     }
@@ -42,18 +52,19 @@ class _ImportantScreenState extends State<ImportantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Jamnagar Complain Tracer'),
+        centerTitle: true,
+        title: const Text('JCT'),
         actions: [
           IconButton(
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProfilePage(),
+                  builder: (context) => const ProfilePage(),
                 ),
               );
             },
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.person),
           ),
         ],
       ),
@@ -94,7 +105,7 @@ class _ImportantScreenState extends State<ImportantScreen> {
             onSelectGrid: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const EmergencyAlerts(),
+                  builder: (context) => const EmergencyAlertsCheck(),
                 ),
               );
             },

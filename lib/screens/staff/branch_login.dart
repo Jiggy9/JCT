@@ -7,10 +7,10 @@ class BranchLogin extends StatefulWidget {
   static String verify = "";
 
   @override
-  State<BranchLogin> createState() => _SignUpScreenState();
+  State<BranchLogin> createState() => _BranchLoginState();
 }
 
-class _SignUpScreenState extends State<BranchLogin> {
+class _BranchLoginState extends State<BranchLogin> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   String errorMessage = '';
   final phoneNumber = TextEditingController();
@@ -26,7 +26,10 @@ class _SignUpScreenState extends State<BranchLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Staff Login', style: TextStyle(fontSize: 25)),
+                const Text(
+                  'Staff Login',
+                  style: TextStyle(fontSize: 25),
+                ),
                 SizedBox(height: screen.height * 0.025),
                 TextFormField(
                   validator: validatePhone,
@@ -39,7 +42,10 @@ class _SignUpScreenState extends State<BranchLogin> {
                       const TextInputType.numberWithOptions(decimal: true),
                 ),
                 SizedBox(height: screen.height * 0.025),
-                Text(errorMessage, style: const TextStyle(color: Colors.red)),
+                Text(
+                  errorMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -53,9 +59,17 @@ class _SignUpScreenState extends State<BranchLogin> {
                           verificationFailed: (FirebaseAuthException e) {
                             errorMessage = '';
                             errorMessage = e.message!;
-                            if (errorMessage ==
-                                'The format of the phone number provided is incorrect. Please enter the phone number in a format that can be parsed into E.164 format. E.164 phone numbers are written in the format [+][country code][subscriber number including area code].') {
-                              errorMessage = 'Phone Number not exists';
+                            if (errorMessage == 'This request is missing a valid app identifier, meaning that Play Integrity checks, and reCAPTCHA checks were unsuccessful. Please try again, or check the logcat for more details.' ||
+                                errorMessage ==
+                                    'The format of the phone number provided is incorrect. Please enter the phone number in a format that can be parsed into E.164 format. E.164 phone numbers are written in the format [+][country code][subscriber number including area code].' ||
+                                errorMessage ==
+                                    'The format of the phone number provided is incorrect. Please enter the phone number in a format that can be parsed into E.164 format. E.164 phone numbers are written in the format [+][country code][subscriber number including area code]. [ TOO_SHORT ]' ||
+                                errorMessage ==
+                                    'The format of the phone number provided is incorrect. Please enter the phone number in a format that can be parsed into E.164 format. E.164 phone numbers are written in the format [+][country code][subscriber number including area code]. [ TOO_LONG ]' ||
+                                errorMessage ==
+                                    'We have blocked all requests from this device due to unusual activity. Try again later.') {
+                              errorMessage =
+                                  'This Phone Number do not belong to a staff member';
                             }
                             setState(() {});
                           },
@@ -73,12 +87,14 @@ class _SignUpScreenState extends State<BranchLogin> {
                         setState(() {});
                       }
                     },
-                    child: const Text('Send OTP'),
+                    child: const Text('Verify Phone Number'),
                   ),
                 ),
                 SizedBox(height: screen.height * 0.025),
-                const Text('Only staff are allowed',
-                    style: TextStyle(fontSize: 15)),
+                const Text(
+                  'Only staff are allowed',
+                  style: TextStyle(fontSize: 15),
+                ),
               ],
             ),
           ),

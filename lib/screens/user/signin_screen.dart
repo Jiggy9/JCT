@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jct/screens/user/important_screen.dart';
 
 import 'package:jct/screens/user/signup_screen.dart';
-import 'package:jct/screens/user/important_screen.dart';
+import 'forgot_password.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -60,7 +61,14 @@ class _SignInScreenState extends State<SignInScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ForgotPasswordScreen(),
+                      ),
+                    );
+                  },
                   child: const Text('Forgot Password'),
                 ),
               ),
@@ -79,14 +87,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: email.text, password: password.text)
-                            .then((value) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => const ImportantScreen()),
-                            ),
-                          );
-                        });
+                            .then(
+                          (value) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ImportantScreen(),
+                              ),
+                            );
+                          },
+                        );
                         errorMessage = '';
                       } on FirebaseAuthException catch (error) {
                         errorMessage = error.message!;
@@ -94,7 +104,6 @@ class _SignInScreenState extends State<SignInScreen> {
                             'An internal error has occurred. [ INVALID_LOGIN_CREDENTIALS ]') {
                           errorMessage = 'Invalid E-Mail or Password';
                         }
-                        print(errorMessage);
                       }
                       setState(() {});
                     }
@@ -107,7 +116,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => const SignUpScreen()),
+                      builder: (context) => const SignUpScreen(),
                     ),
                   );
                 },
