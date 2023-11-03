@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
 
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:jct/screens/user/usefull/complaint_item.dart';
+import 'package:flutter/material.dart';
+import 'package:jct/models/complaint_item.dart';
 import 'package:jct/widgets/user_multiple_image.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,15 +14,13 @@ class RaiseComplaint extends StatefulWidget {
 }
 
 class _RaiseComplaintState extends State<RaiseComplaint> {
-  Map userData = {};
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  String selectedCategory =
-      'Light Department'; // Initialize with the default category
-  String selectedUrgency = 'Low'; // Initialize with the default urgency level
+  String _selectedCategory = 'Light Department';
+  String _selectedUrgency = 'Low';
   final title = TextEditingController();
   final description = TextEditingController();
-
-  // Define a variable to store the selected image
+  var _enteredTitle = '';
+  var _enteredDescription = '';
 
   List<File> selectedImages = [];
 
@@ -38,7 +35,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
       _formkey.currentState!.save();
 
       final url = Uri.https(
-          'jct-flutter-default-rtdb.firebaseio.com', 'complaints-data.json');
+          'jct-flutter-default-rtdb.firebaseio.com', 'complaint-data.json');
       final response = await http.post(
         url,
         headers: {'Content-type': 'application/json'},
@@ -46,31 +43,25 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
           {
             'comp_title': title.text,
             'comp_description': description.text,
-            'selectedCategory': selectedCategory,
-            'selectedUrgency': selectedUrgency,
+            'selectedCategory': _selectedCategory,
+            'selectedUrgency': _selectedUrgency,
           },
         ),
       );
-
-      final Map<String, dynamic> resData = json.decode(response.body);
 
       if (!context.mounted) {
         return;
       }
 
-      print('form submiitted');
-      print('${title.text}, title');
-      print('${description.text}, description');
-      print('selectedCategory, $selectedCategory');
-      print('selectedUrgency, $selectedUrgency');
+      final Map<String, dynamic> resData = json.decode(response.body);
 
       Navigator.of(context).pop(
         ComplaintItem(
           id: resData['name'],
-          title: title.text,
-          description: description.text,
-          selectedCategory: selectedCategory,
-          selectedImages: selectedImages,
+          title: _enteredTitle,
+          description: _enteredDescription,
+          selectedCategory: _selectedCategory,
+          selectedUrgency: _selectedUrgency,
         ),
       );
     }
@@ -96,11 +87,6 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
                     controller: title,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Title is required'),
-                      MinLengthValidator(3,
-                          errorText: 'Minimum 3 characters for title'),
-                    ]),
                     decoration: const InputDecoration(
                       hintText: 'Enter complaint Title',
                       labelText: 'Title',
@@ -112,6 +98,18 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                         ),
                       ),
                     ),
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.trim().length <= 1 ||
+                          value.trim().length > 100) {
+                        return 'Must be between 1 and 100 characters.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _enteredTitle = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -122,13 +120,12 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                   child: TextFormField(
                     controller: description,
                     maxLines: null,
-                    validator: MultiValidator(
-                      [
-                        RequiredValidator(errorText: 'Description is required'),
-                        MinLengthValidator(10,
-                            errorText: 'Minimum 10 characters for description'),
-                      ],
-                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Must not be empty';
+                      }
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       hintText: 'Enter Description',
                       labelText: 'Description',
@@ -140,6 +137,9 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                         ),
                       ),
                     ),
+                    onSaved: (value) {
+                      _enteredDescription = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -157,10 +157,10 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DropdownButton<String>(
-                    value: selectedCategory,
+                    value: _selectedCategory,
                     onChanged: (newValue) {
                       setState(() {
-                        selectedCategory = newValue!;
+                        _selectedCategory = newValue!;
                       });
                     },
                     items: <String>[
@@ -194,10 +194,10 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DropdownButton<String>(
-                    value: selectedUrgency,
+                    value: _selectedUrgency,
                     onChanged: (newValue) {
                       setState(() {
-                        selectedUrgency = newValue!;
+                        _selectedUrgency = newValue!;
                       });
                     },
                     items: <String>['Low', 'Medium', 'High']

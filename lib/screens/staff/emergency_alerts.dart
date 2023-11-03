@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:jct/models/emergency_item.dart';
 import 'package:jct/widgets/new_alert.dart';
 

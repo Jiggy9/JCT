@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:jct/screens/user/usefull/complaint_item.dart';
 import 'package:http/http.dart' as http;
+import 'package:jct/models/complaint_item.dart';
 
 class UserComplaints extends StatefulWidget {
   const UserComplaints({super.key});
@@ -24,7 +24,7 @@ class _SampleScreenState extends State<UserComplaints> {
 
   void _loadItems() async {
     final url = Uri.https(
-        'jct-flutter-default-rtdb.firebaseio.com', 'complaints-data.json');
+        'jct-flutter-default-rtdb.firebaseio.com', 'complaint-data.json');
 
     try {
       final response = await http.get(url);
@@ -48,10 +48,10 @@ class _SampleScreenState extends State<UserComplaints> {
         loadItems.add(
           ComplaintItem(
             id: item.key,
-            title: item.value['title'],
-            description: item.value['description'],
+            title: item.value['comp_title'],
+            description: item.value['comp_description'],
             selectedCategory: item.value['selectedCategory'],
-            selectedImages: item.value['selectedImages'],
+            selectedUrgency: item.value['selectedUrgency'],
           ),
         );
       }
@@ -72,7 +72,7 @@ class _SampleScreenState extends State<UserComplaints> {
       _complaintItems.remove(item);
     });
     final url = Uri.https('jct-flutter-default-rtdb.firebaseio.com',
-        'complaints-data/${item.id}.json');
+        'complaint-data/${item.id}.json');
 
     final response = await http.delete(url);
     if (response.statusCode >= 400) {
