@@ -17,7 +17,10 @@ class _ProfilePageState extends State<ProfilePage> {
   File? selectedImage;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController mobileNumberController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  String verification = '';
+  String errormessage = '';
 
   bool isNameEditable = false;
   bool isMobileNumberEditable = false;
@@ -47,9 +50,24 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     Navigator.of(context).pop();
   }
+    
+  void sendOTP() async {
+      String phone = mobileNumberController.text;
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: '+91$phone',
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {print(e);},
+      codeSent: (String verificationId, int? resendToken) async {
+        verification = verificationId;
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+      
+
     bool validateFullName() {
       final fullName = nameController.text;
       if (fullName.length <= 2) {
@@ -195,12 +213,57 @@ class _ProfilePageState extends State<ProfilePage> {
                 isMobileNumberEditable ? Icons.save : Icons.edit,
                 color: Colors.blue,
               ),
-              onPressed: () {
+              onPressed: isMobileNumberEditable ? () {
+                if(validateMobileNumber()) {
+                  sendOTP();
+                  showDialog(context: context, builder: (context) {
+                    return AlertDialog(
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextField(
+                            controller: otpController,
+                            keyboardType: const TextInputType.numberWithOptions(),
+                            decoration: const InputDecoration(
+                              labelText: 'Enter Verification Code',
+                              filled: true,
+                            ),
+                          ),
+                          Text(errormessage,style: const TextStyle(color: Colors.red, fontSize: 15)),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              try{
+                                  String smsCode = otpController.text;
+                                PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verification, smsCode: smsCode);
+                                await FirebaseAuth.instance.signInWithCredential(credential);
+                                errormessage = '';
+                                Navigator.pop(context);
+                              } on FirebaseAuthException catch(e) {
+                                errormessage = e.message!;
+                              }
+                              setState(() {});
+                            },
+                            child: const Text('Verify'),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+                  validateMobileNumber();
+                  setState(() {
+                    isMobileNumberEditable = !isMobileNumberEditable;
+                  });
+                }
+                else {
+                  validateMobileNumber();
+                }
+              } : () {
                 validateMobileNumber();
                 setState(() {
                   isMobileNumberEditable = !isMobileNumberEditable;
                 });
-              },
+              }
             ),
           ],
         ),

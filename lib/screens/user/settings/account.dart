@@ -106,7 +106,7 @@ class AccountState extends State<Account> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ChangePass(),
+                    builder: (context) => const ChangePassword(),
                   ),
                 );
               },

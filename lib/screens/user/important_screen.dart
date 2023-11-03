@@ -91,7 +91,7 @@ class _ImportantScreenState extends State<ImportantScreen> {
             },
           ),
           GridItem(
-            title: 'Your Complaints & Status',
+            title: 'Ongoing Complaints',
             onSelectGrid: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -111,7 +111,7 @@ class _ImportantScreenState extends State<ImportantScreen> {
             },
           ),
           GridItem(
-            title: 'Reopen Complaints',
+            title: 'Completed Complaints',
             onSelectGrid: () {
               Navigator.of(context).push(
                 MaterialPageRoute(

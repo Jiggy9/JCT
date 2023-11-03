@@ -13,8 +13,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
-          'Home Page',
+          'Settings',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -31,8 +32,8 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: const EdgeInsets.only(top: 15),
       child: Column(children: [
         menuItem(1, 'Account', Icons.person),
-        menuItem(2, 'Notification', Icons.notifications),
-        menuItem(3, 'About', Icons.home)
+       
+        menuItem(2, 'About', Icons.home)
       ]),
     );
   }
@@ -54,6 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               );
             } else if (id == 2) {
+              //add apps info
             }
           });
         },
