@@ -44,7 +44,7 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
-              Icons.question_answer_outlined,
+              Icons.monitor_rounded,
               size: 26,
               color: Theme.of(context).colorScheme.onBackground,
             ),
@@ -61,7 +61,7 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
-              Icons.emergency_outlined,
+              Icons.warning_rounded,
               size: 26,
               color: Theme.of(context).colorScheme.onBackground,
             ),

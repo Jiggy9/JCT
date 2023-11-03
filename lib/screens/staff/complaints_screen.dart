@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jct/screens/staff/emergency_alerts.dart';
 import 'package:jct/screens/staff/reopen_request.dart';
@@ -39,6 +40,15 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('All Complaints'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
       drawer: StaffDrawer(
         onSelectScreen: _setScreen,
@@ -49,10 +59,3 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
     );
   }
 }
-
-// Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => const EmergencyAlerts(),
-//                 ),
-//               );

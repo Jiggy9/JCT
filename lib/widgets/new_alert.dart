@@ -88,7 +88,7 @@ class _NewAlertState extends State<NewAlert> {
                       decoration: const InputDecoration(
                         label: Text('Description'),
                       ),
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.text,
                       initialValue: _enteredDescription,
                       validator: (value) {
                         if (value == null || value.isEmpty) {

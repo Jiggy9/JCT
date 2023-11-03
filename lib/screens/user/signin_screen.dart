@@ -43,8 +43,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 validator: validateEmail,
                 controller: email,
                 decoration: const InputDecoration(
-                  hintText: 'E-Mail',
-                  filled: true,
+                  hintText: 'Enter Your E-Mail',
+                  labelText: 'E-Mail',
+                  errorStyle: TextStyle(fontSize: 18.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(9.0),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: screen.height * 0.025),
@@ -54,8 +61,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 obscureText: isPasswordType,
                 decoration: InputDecoration(
                   suffixIcon: togglePassword(true),
-                  hintText: 'Password',
-                  filled: true,
+                  hintText: 'Enter Your Password',
+                  labelText: 'Password',
+                  errorStyle: const TextStyle(fontSize: 18.0),
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(9.0),
+                    ),
+                  ),
                 ),
               ),
               Align(

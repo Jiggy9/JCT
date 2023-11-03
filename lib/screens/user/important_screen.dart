@@ -101,21 +101,21 @@ class _ImportantScreenState extends State<ImportantScreen> {
             },
           ),
           GridItem(
-            title: 'Emergency Alerts',
-            onSelectGrid: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const EmergencyAlertsCheck(),
-                ),
-              );
-            },
-          ),
-          GridItem(
             title: 'Completed Complaints',
             onSelectGrid: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const ReopenComplaints(),
+                ),
+              );
+            },
+          ),
+          GridItem(
+            title: 'Emergency Alerts',
+            onSelectGrid: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const EmergencyAlertsCheck(),
                 ),
               );
             },
