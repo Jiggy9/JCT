@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class GridItem extends StatelessWidget {
   const GridItem({
     super.key,
@@ -21,10 +20,11 @@ class GridItem extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [
-              Colors.cyan.withOpacity(0.55),
-              Colors.blue.withOpacity(0.9),
+              Color.fromARGB(255, 200, 116, 215),
+              Colors.purpleAccent,
+              Color.fromARGB(255, 52, 21, 104),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

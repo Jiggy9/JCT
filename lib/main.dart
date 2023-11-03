@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:jct/screens/splash_screen.dart';
-import 'package:jct/screens/user/important_screen.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/welcome_screen.dart';
 
 void main() async {

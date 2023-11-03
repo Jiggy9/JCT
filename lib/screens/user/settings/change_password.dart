@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jct/screens/user/signin_screen.dart';
+import 'package:jct/screens/user/login/signin_screen.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});

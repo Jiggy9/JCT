@@ -5,7 +5,7 @@ import 'package:jct/screens/user/usefull/emergency_alerts_check.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
 import 'package:jct/screens/user/usefull/raise_complaint.dart';
 import 'package:jct/screens/user/usefull/reopen_complaints.dart';
-import 'package:jct/screens/user/user_complaints.dart';
+import 'package:jct/screens/user/usefull/user_complaints.dart';
 import 'package:jct/widgets/grid_item.dart';
 import 'package:jct/widgets/user_drawer.dart';
 
@@ -53,7 +53,12 @@ class _ImportantScreenState extends State<ImportantScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('JCT'),
+        title: const Text(
+          'Jamnagar Complaint Tracer',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {

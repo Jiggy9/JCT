@@ -50,13 +50,15 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     Navigator.of(context).pop();
   }
-    
+
   void sendOTP() async {
-      String phone = mobileNumberController.text;
+    String phone = mobileNumberController.text;
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+91$phone',
       verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {print(e);},
+      verificationFailed: (FirebaseAuthException e) {
+        print(e);
+      },
       codeSent: (String verificationId, int? resendToken) async {
         verification = verificationId;
       },
@@ -66,8 +68,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-      
-
     bool validateFullName() {
       final fullName = nameController.text;
       if (fullName.length <= 2) {
@@ -157,9 +157,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 enabled: isNameEditable,
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.only(bottom: 5),
-                  labelText: 'Full Name',
+                  labelText: '1. Your Name',
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Full Name',
+                  hintText: 'Enter your name here ',
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -199,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   contentPadding: EdgeInsets.only(bottom: 5),
                   labelText: 'Mobile no',
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Mobile no',
+                  hintText: 'Enter your mobile no',
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -209,62 +209,76 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             IconButton(
-              icon: Icon(
-                isMobileNumberEditable ? Icons.save : Icons.edit,
-                color: Colors.blue,
-              ),
-              onPressed: isMobileNumberEditable ? () {
-                if(validateMobileNumber()) {
-                  sendOTP();
-                  showDialog(context: context, builder: (context) {
-                    return AlertDialog(
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextField(
-                            controller: otpController,
-                            keyboardType: const TextInputType.numberWithOptions(),
-                            decoration: const InputDecoration(
-                              labelText: 'Enter Verification Code',
-                              filled: true,
-                            ),
-                          ),
-                          Text(errormessage,style: const TextStyle(color: Colors.red, fontSize: 15)),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () async {
-                              try{
-                                  String smsCode = otpController.text;
-                                PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verification, smsCode: smsCode);
-                                await FirebaseAuth.instance.signInWithCredential(credential);
-                                errormessage = '';
-                                Navigator.pop(context);
-                              } on FirebaseAuthException catch(e) {
-                                errormessage = e.message!;
-                              }
-                              setState(() {});
-                            },
-                            child: const Text('Verify'),
-                          ),
-                        ],
-                      ),
-                    );
-                  });
-                  validateMobileNumber();
-                  setState(() {
-                    isMobileNumberEditable = !isMobileNumberEditable;
-                  });
-                }
-                else {
-                  validateMobileNumber();
-                }
-              } : () {
-                validateMobileNumber();
-                setState(() {
-                  isMobileNumberEditable = !isMobileNumberEditable;
-                });
-              }
-            ),
+                icon: Icon(
+                  isMobileNumberEditable ? Icons.save : Icons.edit,
+                  color: Colors.blue,
+                ),
+                onPressed: isMobileNumberEditable
+                    ? () {
+                        if (validateMobileNumber()) {
+                          sendOTP();
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextField(
+                                        controller: otpController,
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(),
+                                        decoration: const InputDecoration(
+                                          labelText: 'Enter Verification Code',
+                                          filled: true,
+                                        ),
+                                      ),
+                                      Text(
+                                        errormessage,
+                                        style: const TextStyle(
+                                            color: Colors.red, fontSize: 15),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          try {
+                                            String smsCode = otpController.text;
+                                            PhoneAuthCredential credential =
+                                                PhoneAuthProvider.credential(
+                                                    verificationId:
+                                                        verification,
+                                                    smsCode: smsCode);
+                                            await FirebaseAuth.instance
+                                                .signInWithCredential(
+                                                    credential);
+                                            errormessage = '';
+
+                                            Navigator.pop(context);
+                                          } on FirebaseAuthException catch (e) {
+                                            errormessage = e.message!;
+                                          }
+                                          setState(() {});
+                                        },
+                                        child: const Text('Verify'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                          validateMobileNumber();
+                          setState(() {
+                            isMobileNumberEditable = !isMobileNumberEditable;
+                          });
+                        } else {
+                          validateMobileNumber();
+                        }
+                      }
+                    : () {
+                        validateMobileNumber();
+                        setState(() {
+                          isMobileNumberEditable = !isMobileNumberEditable;
+                        });
+                      }),
           ],
         ),
       );

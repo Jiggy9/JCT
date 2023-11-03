@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jct/screens/user/important_screen.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({super.key});
@@ -11,7 +11,7 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -22,7 +22,12 @@ class _InfoScreenState extends State<InfoScreen> {
               SizedBox(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: ((context) => const ImportantScreen())));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ImportantScreen(),
+                      ),
+                    );
                   },
                   child: const Text('Back to Home'),
                 ),

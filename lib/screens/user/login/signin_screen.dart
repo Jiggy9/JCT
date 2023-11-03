@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jct/screens/user/signin_screen.dart';
-import 'verify_email.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+import 'package:jct/screens/user/login/signup_screen.dart';
+import 'forgot_password.dart';
+
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+class _SignInScreenState extends State<SignInScreen> {
   String errorMessage = '';
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool isPasswordType = true;
-  bool isConfirmPasswordType = true;
   final email = TextEditingController();
   final password = TextEditingController();
-  final confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +32,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Sign Up',
+                'Sign In',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: screen.height * 0.05),
-              // Email text form field
               TextFormField(
                 validator: validateEmail,
                 controller: email,
                 decoration: const InputDecoration(
-                  hintText: 'Enter E-Mail',
+                  hintText: 'Enter Your E-Mail',
                   labelText: 'E-Mail',
                   errorStyle: TextStyle(fontSize: 18.0),
                   border: OutlineInputBorder(
@@ -56,14 +55,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               SizedBox(height: screen.height * 0.025),
-              // Password text form field
               TextFormField(
                 validator: validatePassword,
                 controller: password,
                 obscureText: isPasswordType,
                 decoration: InputDecoration(
                   suffixIcon: togglePassword(true),
-                  hintText: 'Enter Password',
+                  hintText: 'Enter Your Password',
                   labelText: 'Password',
                   errorStyle: const TextStyle(fontSize: 18.0),
                   border: const OutlineInputBorder(
@@ -74,51 +72,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: screen.height * 0.025),
-              // Confirm Password text form field
-              TextFormField(
-                validator: validateConfirmPassword,
-                controller: confirmPassword,
-                obscureText: isConfirmPasswordType,
-                decoration: InputDecoration(
-                  suffixIcon: togglePassword(false),
-                  hintText: 'Enter Confirm Password',
-                  labelText: 'Confirm Password',
-                  errorStyle: const TextStyle(fontSize: 18.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
-                    ),
-                  ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ForgotPasswordScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text('Forgot Password'),
                 ),
               ),
-              SizedBox(height: screen.height * 0.025),
-              // Error Message
               Text(
                 errorMessage,
                 style: const TextStyle(
                   color: Colors.red,
                 ),
               ),
-              SizedBox(height: screen.height * 0.025),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_key.currentState!.validate()) {
                       try {
-                        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password: password.text).then((value) {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => const EmailVerification()));
-                        });
+                        await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: email.text, password: password.text)
+                            .then(
+                          (value) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ImportantScreen(),
+                              ),
+                            );
+                          },
+                        );
                         errorMessage = '';
                       } on FirebaseAuthException catch (error) {
                         errorMessage = error.message!;
+                        if (errorMessage ==
+                            'An internal error has occurred. [ INVALID_LOGIN_CREDENTIALS ]') {
+                          errorMessage = 'Invalid E-Mail or Password';
+                        }
                       }
                       setState(() {});
                     }
                   },
-                  child: const Text('Sign Up'),
+                  child: const Text('Sign In'),
                 ),
               ),
               TextButton(
@@ -126,11 +130,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SignInScreen(),
+                      builder: (context) => const SignUpScreen(),
                     ),
                   );
                 },
-                child: const Text('Already a User'),
+                child: const Text('New User'),
               ),
             ],
           ),
@@ -141,21 +145,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget togglePassword(bool isPassword) {
     return IconButton(
-      onPressed: () {
-        setState(() {
-          isPassword
-              ? (isPasswordType = !isPasswordType)
-              : (isConfirmPasswordType = !isConfirmPasswordType);
-        });
-      },
-      icon: isPassword
-          ? (isPasswordType
-              ? const Icon(Icons.visibility)
-              : const Icon(Icons.visibility_off))
-          : (isConfirmPasswordType
-              ? const Icon(Icons.visibility)
-              : const Icon(Icons.visibility_off)),
-    );
+        onPressed: () {
+          setState(() {
+            isPasswordType = !isPasswordType;
+          });
+        },
+        icon: isPasswordType
+            ? const Icon(Icons.visibility)
+            : const Icon(Icons.visibility_off));
   }
 
   String? validateEmail(String? formEmail) {
@@ -173,25 +170,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? validatePassword(String? formPassword) {
     if (formPassword == null || formPassword.isEmpty) {
       return 'Password is required';
-    }
-    String pattern1 = r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{6,}$';
-    RegExp regex = RegExp(pattern1);
-    if (!regex.hasMatch(formPassword)) {
-      return 'Password must include:\n- at least 6 characters\n- lower case character\n- upper case character\n- numeric value';
-    }
-    return null;
-  }
-
-  String? validateConfirmPassword(String? formPassword) {
-    if (formPassword == null || formPassword.isEmpty) {
-      return 'Password is required';
-    } else if (password.text != confirmPassword.text) {
-      return 'Password not match';
-    }
-    String pattern1 = r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{6,}$';
-    RegExp regex = RegExp(pattern1);
-    if (!regex.hasMatch(formPassword)) {
-      return 'Invalid Password Format';
     }
     return null;
   }

@@ -126,7 +126,7 @@ class _NewAlertState extends State<NewAlert> {
                         : const Text('Add Alert'),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

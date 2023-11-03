@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:jct/screens/user/usefull/complaint_item.dart';
 import 'package:jct/widgets/user_multiple_image.dart';
+import 'package:http/http.dart' as http;
 
 class RaiseComplaint extends StatefulWidget {
   const RaiseComplaint({Key? key}) : super(key: key);
@@ -28,6 +31,49 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
     setState(() {
       selectedImages = pickedImages;
     });
+  }
+
+  void _submitItem() async {
+    if (_formkey.currentState!.validate()) {
+      _formkey.currentState!.save();
+
+      final url = Uri.https(
+          'jct-flutter-default-rtdb.firebaseio.com', 'complaints-data.json');
+      final response = await http.post(
+        url,
+        headers: {'Content-type': 'application/json'},
+        body: json.encode(
+          {
+            'comp_title': title.text,
+            'comp_description': description.text,
+            'selectedCategory': selectedCategory,
+            'selectedUrgency': selectedUrgency,
+          },
+        ),
+      );
+
+      final Map<String, dynamic> resData = json.decode(response.body);
+
+      if (!context.mounted) {
+        return;
+      }
+
+      print('form submiitted');
+      print('${title.text}, title');
+      print('${description.text}, description');
+      print('selectedCategory, $selectedCategory');
+      print('selectedUrgency, $selectedUrgency');
+
+      Navigator.of(context).pop(
+        ComplaintItem(
+          id: resData['name'],
+          title: title.text,
+          description: description.text,
+          selectedCategory: selectedCategory,
+          selectedImages: selectedImages,
+        ),
+      );
+    }
   }
 
   @override
@@ -76,11 +122,13 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                   child: TextFormField(
                     controller: description,
                     maxLines: null,
-                    validator: MultiValidator([
-                      RequiredValidator(errorText: 'Description is required'),
-                      MinLengthValidator(10,
-                          errorText: 'Minimum 10 characters for description'),
-                    ]),
+                    validator: MultiValidator(
+                      [
+                        RequiredValidator(errorText: 'Description is required'),
+                        MinLengthValidator(10,
+                            errorText: 'Minimum 10 characters for description'),
+                      ],
+                    ),
                     decoration: const InputDecoration(
                       hintText: 'Enter Description',
                       labelText: 'Description',
@@ -166,25 +214,10 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                   child: Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: SizedBox(
-                      // margin: EdgeInsets.fromLTRB(200, 20, 50, 0),
                       width: MediaQuery.of(context).size.width,
-
                       height: 50,
-                      // margin: EdgeInsets.fromLTRB(200, 20, 50, 0),
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formkey.currentState!.validate()) {
-
-                            
-                            print('form submiitted');
-                            print('${title.text}, title');
-                            print('${description.text}, description');
-                            print('selectedCategory, $selectedCategory');
-                            print('selectedUrgency, $selectedUrgency');
-
-                            Navigator.of(context).pop();
-                          }
-                        },
+                        onPressed: _submitItem,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurple,
                           shape: RoundedRectangleBorder(
