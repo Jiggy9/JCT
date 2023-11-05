@@ -24,26 +24,26 @@ class _EmergencyAlertsState extends State<EmergencyAlerts> {
   }
 
   void _loadItems() async {
-    final url = Uri.https(
+    final emergencyAlertsUrl = Uri.https(
         'jct-flutter-default-rtdb.firebaseio.com', 'emergency-alerts.json');
 
     try {
-      final response = await http.get(url);
+      final emergencyAlertsResponse = await http.get(emergencyAlertsUrl);
 
-      if (response.statusCode >= 400) {
+      if (emergencyAlertsResponse.statusCode >= 400) {
         setState(() {
           _error = 'Failed to fetch data. Please try again later.';
         });
       }
 
-      if (response.body == 'null') {
+      if (emergencyAlertsResponse.body == 'null') {
         setState(() {
           _isLoading = false;
         });
         return;
       }
 
-      final Map<String, dynamic> listData = json.decode(response.body);
+      final Map<String, dynamic> listData = json.decode(emergencyAlertsResponse.body);
       final List<EmergencyItem> loadItems = [];
       for (final item in listData.entries) {
         loadItems.add(
@@ -106,7 +106,7 @@ class _EmergencyAlertsState extends State<EmergencyAlerts> {
     }
 
     if (_emergencyItems.isNotEmpty) {
-      content = ListView.builder(
+      content = ListView.separated(
         itemCount: _emergencyItems.length,
         itemBuilder: (ctx, index) => Dismissible(
           onDismissed: (direction) {
@@ -114,9 +114,24 @@ class _EmergencyAlertsState extends State<EmergencyAlerts> {
           },
           key: ValueKey(_emergencyItems[index].id),
           child: ListTile(
-            title: Text(_emergencyItems[index].title),
+            title: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(_emergencyItems[index].title),
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(_emergencyItems[index].description),
+            ),
+            titleTextStyle: Theme.of(context).textTheme.titleLarge,
+            subtitleTextStyle: Theme.of(context).textTheme.bodyMedium,
+            trailing: const Icon(Icons.arrow_forward_ios),
           ),
         ),
+        separatorBuilder: (context, index) {
+          return const Divider(
+            thickness: 2,
+          );
+        },
       );
     }
 

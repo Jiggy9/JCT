@@ -119,12 +119,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.only(bottom: 5),
                   labelText: 'Home Address',
+                  labelStyle: TextStyle(color: Colors.black),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: 'Home Address',
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -132,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
               icon: Icon(
                 isAddressEditable ? Icons.save : Icons.edit,
-                color: Colors.blue,
+                color: Colors.black,
               ),
               onPressed: () {
                 validateHomeAddress();
@@ -158,12 +159,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.only(bottom: 5),
                   labelText: '1. Your Name',
+                  labelStyle: TextStyle(color: Colors.black),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: 'Enter your name here ',
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -171,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
               icon: Icon(
                 isNameEditable ? Icons.save : Icons.edit,
-                color: Colors.blue,
+                color: Colors.black,
               ),
               onPressed: () {
                 validateFullName();
@@ -198,12 +200,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.only(bottom: 5),
                   labelText: 'Mobile no',
+                  labelStyle: TextStyle(color: Colors.black),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: 'Enter your mobile no',
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -211,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
                 icon: Icon(
                   isMobileNumberEditable ? Icons.save : Icons.edit,
-                  color: Colors.blue,
+                  color: Colors.black,
                 ),
                 onPressed: isMobileNumberEditable
                     ? () {
@@ -252,7 +255,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 .signInWithCredential(
                                                     credential);
                                             errormessage = '';
-
                                             Navigator.pop(context);
                                           } on FirebaseAuthException catch (e) {
                                             errormessage = e.message!;
@@ -285,9 +287,19 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 200, 116, 215),
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: const Color.fromARGB(255, 200, 116, 215),
         centerTitle: true,
-        title: const Text('Edit Profile'),
+        title: const Text(
+          "Edit Profile",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
@@ -330,6 +342,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: const Text(
                       "Cancel",
                       style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         fontSize: 15,
                         letterSpacing: 2,
                         color: Colors.black,
@@ -339,14 +352,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ElevatedButton(
                     onPressed: saveChanges,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.deepPurple,
                         padding: const EdgeInsets.symmetric(horizontal: 50),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20))),
                     child: const Text(
                       "SAVE",
                       style: TextStyle(
-                          fontSize: 15, letterSpacing: 2, color: Colors.white),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          letterSpacing: 2,
+                          color: Colors.black),
                     ),
                   ),
                 ],
@@ -362,7 +378,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       );
                 },
-                child: const Text('Logout'),
+                child: const Text(
+                  "Logout",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),

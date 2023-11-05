@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:jct/screens/welcome_screen.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashScreenn extends StatefulWidget {
+  const SplashScreenn({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreenn> createState() => _SplashScreennState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreennState extends State<SplashScreenn> {
   @override
   void initState() {
     super.initState();
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const WelcomeScreen(),
+            builder: (context) => const ImportantScreen(),
           ),
         );
       }

@@ -23,6 +23,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.deepPurple.shade300,
       body: Padding(
         padding: EdgeInsets.only(
             left: screen.width * 0.075, right: screen.width * 0.075),
@@ -34,9 +35,9 @@ class _SignInScreenState extends State<SignInScreen> {
               const Text(
                 'Sign In',
                 style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               SizedBox(height: screen.height * 0.05),
               TextFormField(
@@ -44,10 +45,14 @@ class _SignInScreenState extends State<SignInScreen> {
                 controller: email,
                 decoration: const InputDecoration(
                   hintText: 'Enter Your E-Mail',
+                  hintStyle: TextStyle(color: Colors.white),
                   labelText: 'E-Mail',
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
                   errorStyle: TextStyle(fontSize: 18.0),
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
                       Radius.circular(9.0),
                     ),
@@ -62,10 +67,14 @@ class _SignInScreenState extends State<SignInScreen> {
                 decoration: InputDecoration(
                   suffixIcon: togglePassword(true),
                   hintText: 'Enter Your Password',
+                  hintStyle: const TextStyle(color: Colors.white),
                   labelText: 'Password',
+                  labelStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
                   errorStyle: const TextStyle(fontSize: 18.0),
                   border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
                       Radius.circular(9.0),
                     ),
@@ -83,13 +92,16 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     );
                   },
-                  child: const Text('Forgot Password'),
+                  child: const Text(
+                    "Forgot Password",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
               Text(
                 errorMessage,
                 style: const TextStyle(
-                  color: Colors.red,
+                  color: Colors.white,
                 ),
               ),
               SizedBox(
@@ -122,7 +134,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       setState(() {});
                     }
                   },
-                  child: const Text('Sign In'),
+                  child: const Text(
+                    "Sign In",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               TextButton(
@@ -134,7 +149,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   );
                 },
-                child: const Text('New User'),
+                child: const Text(
+                  "New User",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
@@ -145,6 +163,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget togglePassword(bool isPassword) {
     return IconButton(
+        color: Colors.white,
         onPressed: () {
           setState(() {
             isPasswordType = !isPasswordType;

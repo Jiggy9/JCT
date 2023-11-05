@@ -83,6 +83,7 @@ class _ImportantScreenState extends State<ImportantScreen> {
           childAspectRatio: 2.6,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
+          
         ),
         children: [
           GridItem(

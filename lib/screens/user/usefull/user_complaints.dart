@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jct/models/complaint_item.dart';
+import 'package:jct/screens/user/usefull/detailed_complaint.dart';
 
 class UserComplaints extends StatefulWidget {
   const UserComplaints({super.key});
@@ -89,21 +90,54 @@ class _SampleScreenState extends State<UserComplaints> {
     );
 
     if (_isLoading) {
-      content = const Center(child: CircularProgressIndicator());
+      content = const Center(
+        child: CircularProgressIndicator(),
+      );
     }
 
     if (_complaintItems.isNotEmpty) {
-      content = ListView.builder(
+      content = ListView.separated(
         itemCount: _complaintItems.length,
         itemBuilder: (ctx, index) => Dismissible(
           onDismissed: (direction) {
             _removeItem(_complaintItems[index]);
           },
           key: ValueKey(_complaintItems[index].id),
-          child: ListTile(
-            title: Text(_complaintItems[index].title),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailedPage(
+                    complaintItem: _complaintItems[index],
+                  ),
+                ),
+              );
+            },
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(width: 2),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(_complaintItems[index].title),
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(_complaintItems[index].description),
+              ),
+              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+              subtitleTextStyle: Theme.of(context).textTheme.bodyMedium,
+              trailing: const Icon(Icons.arrow_forward_ios),
+            ),
           ),
         ),
+        separatorBuilder: (context, index) {
+          return const Divider(
+            thickness: 2,
+          );
+        },
       );
     }
 
@@ -115,6 +149,11 @@ class _SampleScreenState extends State<UserComplaints> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: const Text('Your Complaints'),
       ),
       body: content,

@@ -17,6 +17,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.deepPurple.shade300,
       body: Padding(
         padding: EdgeInsets.only(
             left: screen.width * 0.075, right: screen.width * 0.075),
@@ -28,6 +29,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               const Text(
                 'Set New Password',
                 style: TextStyle(
+                  color: Colors.white,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -74,7 +76,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       setState(() {});
                     }
                   },
-                  child: const Text('Send Email Verification'),
+                  child: const Text(
+                    "Send Email Verification",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],

@@ -24,26 +24,27 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
   }
 
   void _loadItems() async {
-    final url = Uri.https(
+    final emergencyAlertsUrl = Uri.https(
         'jct-flutter-default-rtdb.firebaseio.com', 'emergency-alerts.json');
 
     try {
-      final response = await http.get(url);
+      final emergencyAlertsResponse = await http.get(emergencyAlertsUrl);
 
-      if (response.statusCode >= 400) {
+      if (emergencyAlertsResponse.statusCode >= 400) {
         setState(() {
           _error = 'Failed to fetch data. Please try again later.';
         });
       }
 
-      if (response.body == 'null') {
+      if (emergencyAlertsResponse.body == 'null') {
         setState(() {
           _isLoading = false;
         });
         return;
       }
 
-      final Map<String, dynamic> listData = json.decode(response.body);
+      final Map<String, dynamic> listData =
+          json.decode(emergencyAlertsResponse.body);
       final List<EmergencyItem> loadItems = [];
       for (final item in listData.entries) {
         loadItems.add(
@@ -58,6 +59,7 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
         _emergencyItems = loadItems;
         _isLoading = false;
       });
+      print('Error: ${emergencyAlertsResponse.statusCode}');
     } catch (err) {
       setState(() {
         _error = 'Something went wrong! Please try again later.';
@@ -92,6 +94,11 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: const Text('Emergency Alerts'),
       ),
       body: content,

@@ -24,7 +24,7 @@ class GridItem extends StatelessWidget {
             colors: [
               Color.fromARGB(255, 200, 116, 215),
               Colors.purpleAccent,
-              Color.fromARGB(255, 52, 21, 104),
+              Color.fromARGB(255, 103, 51, 194),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -34,6 +34,7 @@ class GridItem extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
+                fontSize: 25,fontWeight: FontWeight.w500
               ),
         ),
       ),

@@ -48,7 +48,8 @@ class WelcomeScreen extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                       foregroundColor: Colors.black,
                       side: const BorderSide(color: Colors.black),
                       padding: const EdgeInsets.symmetric(
@@ -62,9 +63,10 @@ class WelcomeScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.deepPurple,
                       side: const BorderSide(color: Colors.black),
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),

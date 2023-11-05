@@ -23,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.deepPurple.shade300,
       body: Padding(
         padding: EdgeInsets.only(
             left: screen.width * 0.075, right: screen.width * 0.075),
@@ -34,9 +35,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const Text(
                 'Sign Up',
                 style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               SizedBox(height: screen.height * 0.05),
               // Email text form field
@@ -45,10 +46,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 controller: email,
                 decoration: const InputDecoration(
                   hintText: 'Enter E-Mail',
+                  hintStyle: TextStyle(color: Colors.white),
                   labelText: 'E-Mail',
+                  labelStyle: TextStyle(color: Colors.white),
                   errorStyle: TextStyle(fontSize: 18.0),
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
                       Radius.circular(9.0),
                     ),
@@ -64,10 +67,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 decoration: InputDecoration(
                   suffixIcon: togglePassword(true),
                   hintText: 'Enter Password',
+                  hintStyle: const TextStyle(color: Colors.white),
                   labelText: 'Password',
+                  labelStyle: const TextStyle(color: Colors.white),
                   errorStyle: const TextStyle(fontSize: 18.0),
                   border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
                       Radius.circular(9.0),
                     ),
@@ -83,10 +88,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 decoration: InputDecoration(
                   suffixIcon: togglePassword(false),
                   hintText: 'Enter Confirm Password',
+                  hintStyle: const TextStyle(color: Colors.white),
                   labelText: 'Confirm Password',
+                  labelStyle: const TextStyle(color: Colors.white),
                   errorStyle: const TextStyle(fontSize: 18.0),
                   border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
                       Radius.circular(9.0),
                     ),
@@ -98,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Text(
                 errorMessage,
                 style: const TextStyle(
-                  color: Colors.red,
+                  color: Colors.white,
                 ),
               ),
               SizedBox(height: screen.height * 0.025),
@@ -108,8 +115,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: () async {
                     if (_key.currentState!.validate()) {
                       try {
-                        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password: password.text).then((value) {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => const EmailVerification()));
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: email.text, password: password.text)
+                            .then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EmailVerification()));
                         });
                         errorMessage = '';
                       } on FirebaseAuthException catch (error) {
@@ -118,7 +132,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       setState(() {});
                     }
                   },
-                  child: const Text('Sign Up'),
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               TextButton(
@@ -130,7 +148,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   );
                 },
-                child: const Text('Already a User'),
+                child: const Text(
+                  "Already a User",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
@@ -141,6 +162,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget togglePassword(bool isPassword) {
     return IconButton(
+      color: Colors.white,
       onPressed: () {
         setState(() {
           isPassword

@@ -18,6 +18,11 @@ class ReopenComplaints extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: const Text('Reopen Complaints'),
       ),
       body: const Center(

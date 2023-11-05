@@ -4,8 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:jct/screens/splash_screen.dart';
-import 'package:jct/screens/user/usefull/important_screen.dart';
-import 'package:jct/screens/welcome_screen.dart';
+import 'package:jct/screens/splash_screenn.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,9 +34,9 @@ class MyApp extends StatelessWidget {
             return const SplashScreen();
           }
           if (snapshot.hasData) {
-            return const ImportantScreen();
+            return const SplashScreenn();
           }
-          return const WelcomeScreen();
+          return const SplashScreen();
         },
       ),
     );

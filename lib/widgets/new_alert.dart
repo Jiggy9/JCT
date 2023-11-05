@@ -23,10 +23,10 @@ class _NewAlertState extends State<NewAlert> {
       setState(() {
         _isSending = true;
       });
-      final url = Uri.https(
+      final emergencyAlertsUrl = Uri.https(
           'jct-flutter-default-rtdb.firebaseio.com', 'emergency-alerts.json');
-      final response = await http.post(
-        url,
+      final emergencyAlertsResponse = await http.post(
+        emergencyAlertsUrl,
         headers: {'Content-type': 'application/json'},
         body: json.encode(
           {
@@ -39,7 +39,7 @@ class _NewAlertState extends State<NewAlert> {
       if (!context.mounted) {
         return;
       }
-      final Map<String, dynamic> resData = json.decode(response.body);
+      final Map<String, dynamic> resData = json.decode(emergencyAlertsResponse.body);
       Navigator.of(context).pop(
         EmergencyItem(
           id: resData['name'],
