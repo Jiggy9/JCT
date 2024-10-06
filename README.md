@@ -1,6 +1,14 @@
 # 🌟 JCT - Jamnagar Complaint Tracer App
  
-CT is a Flutter-based mobile application developed for the Jamnagar Municipal Corporation. It simplifies the process of public complaint reporting and status monitoring, aiming to enhance communication and efficiency in addressing civic issues.
+JCT is a Flutter-based mobile application developed for the Jamnagar Municipal Corporation. It simplifies the process of public complaint reporting and status monitoring, aiming to enhance communication and efficiency in addressing civic issues.
+
+## 📋 Table of Contents
+1. [Key Features](#-key-features)
+2. [Usage](#-usage)
+3. [Contributing](#-contributing)
+4. [License](#-license)
+5. [Acknowledgments](#-acknowledgments)
+
 
 ## 📱 Key Features
 
@@ -15,6 +23,12 @@ CT is a Flutter-based mobile application developed for the Jamnagar Municipal Co
 - **Complaint Tracking**: Review, reopen, and manage your complaints effortlessly. 🔍
 - **Automated Processes**: Leverage Firebase Cloud Functions for efficient backend operations. ⚙️
 - **File Storage**: Optional integration with Firebase Cloud Storage for easy document handling. 📁
+
+## 🛠️ Development Tools
+- Flutter: 3.0+
+- Dart: 2.18+
+- Firebase Realtime Database
+- Firebase Authentication
 
 
 ## 🚀 Usage
