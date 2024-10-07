@@ -27,20 +27,20 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.latoTextTheme(),
       ),
-      home: const SignInScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          }
+          if (snapshot.hasData) {
+            return const SplashScreenn();
+          }
+          return const SplashScreen();
+        },
+      ),
     );
   }
 }
 
-// StreamBuilder(
-//         stream: FirebaseAuth.instance.authStateChanges(),
-//         builder: (ctx, snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return const SplashScreen();
-//           }
-//           if (snapshot.hasData) {
-//             return const SplashScreenn();
-//           }
-//           return const SplashScreen();
-//         },
-//       )
+
