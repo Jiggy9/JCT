@@ -4,6 +4,7 @@ JCT is a Flutter-based mobile application developed for the Jamnagar Municipal C
 
 ## 📋 Table of Contents
 1. [Key Features](#-key-features)
+2. [Prequisites](## ⚙️ Prerequisites)
 2. [Development Tools](#️-development-tools)
 2. [Usage](#-usage)
 3. [Contributing](#-contributing)
@@ -24,6 +25,15 @@ JCT is a Flutter-based mobile application developed for the Jamnagar Municipal C
 - **Complaint Tracking**: Review, reopen, and manage your complaints effortlessly. 🔍
 - **Automated Processes**: Leverage Firebase Cloud Functions for efficient backend operations. ⚙️
 - **File Storage**: Optional integration with Firebase Cloud Storage for easy document handling. 📁
+
+## ⚙️ Prerequisites
+
+Ensure the following tools are installed on your machine:
+
+- **Flutter**: [Install Flutter](https://flutter.dev/docs/get-started/install) 
+- **Dart**: Comes with Flutter, but ensure it's up-to-date: `dart --version`
+- **Firebase CLI**: Set up [Firebase CLI](https://firebase.google.com/docs/cli#setup_update_cli) to manage Firebase services.
+
 
 ## 🛠️ Development Tools
 - Flutter: 3.0+
