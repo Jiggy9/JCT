@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:jct/screens/splash_screen.dart';
 import 'package:jct/screens/splash_screenn.dart';
-
+import 'package:jct/screens/user/login/signin_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -27,18 +27,20 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.latoTextTheme(),
       ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
-          if (snapshot.hasData) {
-            return const SplashScreenn();
-          }
-          return const SplashScreen();
-        },
-      ),
+      home: const SignInScreen(),
     );
   }
 }
+
+// StreamBuilder(
+//         stream: FirebaseAuth.instance.authStateChanges(),
+//         builder: (ctx, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return const SplashScreen();
+//           }
+//           if (snapshot.hasData) {
+//             return const SplashScreenn();
+//           }
+//           return const SplashScreen();
+//         },
+//       )

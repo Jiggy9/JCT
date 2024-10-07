@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jct/common/utils/show_snackbar.dart';
 import 'package:jct/screens/user/usefull/important_screen.dart';
 
 import 'package:jct/screens/user/login/signup_screen.dart';
+import 'package:jct/widgets/custom_button.dart';
+import 'package:jct/widgets/custom_textfield.dart';
 import 'forgot_password.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -18,6 +21,33 @@ class _SignInScreenState extends State<SignInScreen> {
   bool isPasswordType = true;
   final email = TextEditingController();
   final password = TextEditingController();
+
+  Future<void> signIn() async {
+    if (_key.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: email.text, password: password.text)
+            .then(
+          (value) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ImportantScreen(),
+              ),
+            );
+          },
+        );
+        errorMessage = '';
+      } on FirebaseAuthException catch (error) {
+        showSnackBar(
+          context,
+          error.message!,
+        );
+      }
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,46 +70,18 @@ class _SignInScreenState extends State<SignInScreen> {
                     color: Colors.white),
               ),
               SizedBox(height: screen.height * 0.05),
-              TextFormField(
-                validator: validateEmail,
+              CustomTextfield(
+                hintText: 'E-Mail',
+                obscureText: false,
                 controller: email,
-                decoration: const InputDecoration(
-                  hintText: 'Enter Your E-Mail',
-                  hintStyle: TextStyle(color: Colors.white),
-                  labelText: 'E-Mail',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                  errorStyle: TextStyle(fontSize: 18.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
-                    ),
-                  ),
-                ),
+                validator: validateEmail,
               ),
               SizedBox(height: screen.height * 0.025),
-              TextFormField(
-                validator: validatePassword,
-                controller: password,
+              CustomTextfield(
+                hintText: 'Password',
                 obscureText: isPasswordType,
-                decoration: InputDecoration(
-                  suffixIcon: togglePassword(true),
-                  hintText: 'Enter Your Password',
-                  hintStyle: const TextStyle(color: Colors.white),
-                  labelText: 'Password',
-                  labelStyle: const TextStyle(
-                    color: Colors.white,
-                  ),
-                  errorStyle: const TextStyle(fontSize: 18.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
-                    ),
-                  ),
-                ),
+                controller: password,
+                validator: validatePassword,
               ),
               Align(
                 alignment: Alignment.centerRight,
@@ -104,41 +106,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      try {
-                        await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: email.text, password: password.text)
-                            .then(
-                          (value) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ImportantScreen(),
-                              ),
-                            );
-                          },
-                        );
-                        errorMessage = '';
-                      } on FirebaseAuthException catch (error) {
-                        errorMessage = error.message!;
-                        if (errorMessage ==
-                            'An internal error has occurred. [ INVALID_LOGIN_CREDENTIALS ]') {
-                          errorMessage = 'Invalid E-Mail or Password';
-                        }
-                      }
-                      setState(() {});
-                    }
-                  },
-                  child: const Text(
-                    "Sign In",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
+              CustomButton(
+                text: 'Sign In',
+                onPressed: signIn,
+                color: Colors.white,
               ),
               TextButton(
                 onPressed: () {

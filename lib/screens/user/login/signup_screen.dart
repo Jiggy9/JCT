@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jct/common/utils/show_snackbar.dart';
 import 'package:jct/screens/user/login/signin_screen.dart';
+import 'package:jct/widgets/custom_button.dart';
+import 'package:jct/widgets/custom_textfield.dart';
 import '../settings/verify_email.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -18,6 +21,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final email = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
+
+  Future<void> signUp() async {
+    if (_key.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: email.text, password: password.text)
+            .then(
+          (value) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EmailVerification(),
+              ),
+            );
+          },
+        );
+        errorMessage = '';
+      } on FirebaseAuthException catch (error) {
+        showSnackBar(
+          context,
+          error.message!,
+        );
+      }
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,64 +71,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(height: screen.height * 0.05),
               // Email text form field
-              TextFormField(
-                validator: validateEmail,
+              CustomTextfield(
+                hintText: 'E-Mail',
+                obscureText: false,
                 controller: email,
-                decoration: const InputDecoration(
-                  hintText: 'Enter E-Mail',
-                  hintStyle: TextStyle(color: Colors.white),
-                  labelText: 'E-Mail',
-                  labelStyle: TextStyle(color: Colors.white),
-                  errorStyle: TextStyle(fontSize: 18.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
-                    ),
-                  ),
-                ),
+                validator: validateEmail,
               ),
               SizedBox(height: screen.height * 0.025),
               // Password text form field
-              TextFormField(
+              CustomTextfield(
                 validator: validatePassword,
                 controller: password,
                 obscureText: isPasswordType,
-                decoration: InputDecoration(
-                  suffixIcon: togglePassword(true),
-                  hintText: 'Enter Password',
-                  hintStyle: const TextStyle(color: Colors.white),
-                  labelText: 'Password',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  errorStyle: const TextStyle(fontSize: 18.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
-                    ),
-                  ),
-                ),
+                hintText: 'Password',
               ),
               SizedBox(height: screen.height * 0.025),
               // Confirm Password text form field
-              TextFormField(
+              CustomTextfield(
                 validator: validateConfirmPassword,
                 controller: confirmPassword,
                 obscureText: isConfirmPasswordType,
-                decoration: InputDecoration(
-                  suffixIcon: togglePassword(false),
-                  hintText: 'Enter Confirm Password',
-                  hintStyle: const TextStyle(color: Colors.white),
-                  labelText: 'Confirm Password',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  errorStyle: const TextStyle(fontSize: 18.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
-                    ),
-                  ),
-                ),
+                hintText: 'Confirm Password',
               ),
               SizedBox(height: screen.height * 0.025),
               // Error Message
@@ -109,35 +102,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               SizedBox(height: screen.height * 0.025),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      try {
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: email.text, password: password.text)
-                            .then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EmailVerification()));
-                        });
-                        errorMessage = '';
-                      } on FirebaseAuthException catch (error) {
-                        errorMessage = error.message!;
-                      }
-                      setState(() {});
-                    }
-                  },
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                        color: Colors.deepPurple, fontWeight: FontWeight.bold),
-                  ),
-                ),
+              CustomButton(
+                text: 'Sign Up',
+                onPressed: signUp,
+                color: Colors.white,
               ),
               TextButton(
                 onPressed: () {
