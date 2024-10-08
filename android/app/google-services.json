@@ -1,13 +1,51 @@
 {
   "project_info": {
-    "project_number": "597306534586",
-    "project_id": "jct-forked",
-    "storage_bucket": "jct-forked.appspot.com"
+    "project_number": "443612017854",
+    "project_id": "flutter-cli-test-2004",
+    "storage_bucket": "flutter-cli-test-2004.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:597306534586:android:3f729788b71c256eaff083",
+        "mobilesdk_app_id": "1:443612017854:android:18d82a9ca38fb4796adaef",
+        "android_client_info": {
+          "package_name": "com.example.donorconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyS2rb60Fx-XzRvgTsVGVxdD_nCk3lnz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443612017854:android:d0d832441c94b8ab6adaef",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyS2rb60Fx-XzRvgTsVGVxdD_nCk3lnz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443612017854:android:ca95154145d440266adaef",
         "android_client_info": {
           "package_name": "com.example.jct"
         }
@@ -15,7 +53,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyh6QwHlccQ2Q4jyHNQlFEyu7h-lu3Clk"
+          "current_key": "AIzaSyCyS2rb60Fx-XzRvgTsVGVxdD_nCk3lnz8"
         }
       ],
       "services": {
