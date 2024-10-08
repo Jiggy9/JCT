@@ -22,139 +22,150 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade300,
-      body: Padding(
-        padding: EdgeInsets.only(
-            left: screen.width * 0.075, right: screen.width * 0.075),
-        child: Form(
-          key: _key,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Sign Up',
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              SizedBox(height: screen.height * 0.05),
-              // Email text form field
-              TextFormField(
-                validator: validateEmail,
-                controller: email,
-                decoration: const InputDecoration(
-                  hintText: 'Enter E-Mail',
-                  hintStyle: TextStyle(color: Colors.white),
-                  labelText: 'E-Mail',
-                  labelStyle: TextStyle(color: Colors.white),
-                  errorStyle: TextStyle(fontSize: 18.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: screen.width * 0.075,
+          ),
+          child: Form(
+            key: _key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: screen.height * 0.1), // To add some top space
+                const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                SizedBox(height: screen.height * 0.05),
+                // Email text form field
+                TextFormField(
+                  validator: validateEmail,
+                  controller: email,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter E-Mail',
+                    hintStyle: TextStyle(color: Colors.white),
+                    labelText: 'E-Mail',
+                    labelStyle: TextStyle(color: Colors.white),
+                    errorStyle: TextStyle(fontSize: 18.0),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(9.0),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: screen.height * 0.025),
-              // Password text form field
-              TextFormField(
-                validator: validatePassword,
-                controller: password,
-                obscureText: isPasswordType,
-                decoration: InputDecoration(
-                  suffixIcon: togglePassword(true),
-                  hintText: 'Enter Password',
-                  hintStyle: const TextStyle(color: Colors.white),
-                  labelText: 'Password',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  errorStyle: const TextStyle(fontSize: 18.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
+                SizedBox(height: screen.height * 0.025),
+                // Password text form field
+                TextFormField(
+                  validator: validatePassword,
+                  controller: password,
+                  obscureText: isPasswordType,
+                  decoration: InputDecoration(
+                    suffixIcon: togglePassword(true),
+                    hintText: 'Enter Password',
+                    hintStyle: const TextStyle(color: Colors.white),
+                    labelText: 'Password',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    errorStyle: const TextStyle(fontSize: 18.0),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(9.0),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: screen.height * 0.025),
-              // Confirm Password text form field
-              TextFormField(
-                validator: validateConfirmPassword,
-                controller: confirmPassword,
-                obscureText: isConfirmPasswordType,
-                decoration: InputDecoration(
-                  suffixIcon: togglePassword(false),
-                  hintText: 'Enter Confirm Password',
-                  hintStyle: const TextStyle(color: Colors.white),
-                  labelText: 'Confirm Password',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  errorStyle: const TextStyle(fontSize: 18.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
+                SizedBox(height: screen.height * 0.025),
+                // Confirm Password text form field
+                TextFormField(
+                  validator: validateConfirmPassword,
+                  controller: confirmPassword,
+                  obscureText: isConfirmPasswordType,
+                  decoration: InputDecoration(
+                    suffixIcon: togglePassword(false),
+                    hintText: 'Enter Confirm Password',
+                    hintStyle: const TextStyle(color: Colors.white),
+                    labelText: 'Confirm Password',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    errorStyle: const TextStyle(fontSize: 18.0),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(9.0),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: screen.height * 0.025),
-              // Error Message
-              Text(
-                errorMessage,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: screen.height * 0.025),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      try {
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: email.text, password: password.text)
-                            .then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EmailVerification()));
-                        });
-                        errorMessage = '';
-                      } on FirebaseAuthException catch (error) {
-                        errorMessage = error.message!;
-                        print("ERROR: ${error}");
+
+                SizedBox(height: screen.height * 0.025),
+                // Error Message
+                if (errorMessage.isNotEmpty)
+                  Text(
+                    errorMessage,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                SizedBox(height: screen.height * 0.025),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_key.currentState!.validate()) {
+                        try {
+                          await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: email.text, password: password.text)
+                              .then((value) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EmailVerification()));
+                          });
+                          errorMessage = '';
+                        } on FirebaseAuthException catch (error) {
+                          setState(() {
+                            errorMessage = error.message!;
+                          });
+                        }
+
                       }
-                      setState(() {});
-                    }
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          color: Colors.deepPurple,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
                   },
                   child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                        color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                    "Already a User",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignInScreen(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  "Already a User",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
+                SizedBox(height: screen.height * 0.05), // Add some bottom space
+              ],
+            ),
           ),
         ),
       ),
@@ -183,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? validateEmail(String? formEmail) {
     if (formEmail == null || formEmail.isEmpty) {
-      return 'E- Mail Address is required';
+      return 'E-Mail Address is required';
     }
     String pattern = r'\w+@\w+\.\w+';
     RegExp regex = RegExp(pattern);
@@ -209,7 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (formPassword == null || formPassword.isEmpty) {
       return 'Password is required';
     } else if (password.text != confirmPassword.text) {
-      return 'Password not match';
+      return 'Passwords do not match';
     }
     String pattern1 = r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).{6,}$';
     RegExp regex = RegExp(pattern1);
