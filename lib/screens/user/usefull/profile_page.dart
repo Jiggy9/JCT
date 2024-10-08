@@ -27,29 +27,68 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isAddressEditable = false;
   bool isEditing = false;
 
-  void saveChanges() async {
-    final name = nameController.text;
-    final mobileNumber = mobileNumberController.text;
-    final address = addressController.text;
+void saveChanges() async {
+    final name = nameController.text.trim();
+    final mobileNumber = mobileNumberController.text.trim();
+    final address = addressController.text.trim();
 
-    final storageRef = FirebaseStorage.instance
-        .ref()
-        .child('user_images')
-        .child('$mobileNumber.jpg');
-
-    await storageRef.putFile(selectedImage!);
-    final imageUrl = await storageRef.getDownloadURL();
-
-    print('Name: $name');
-    print('Mobile Number: $mobileNumber');
-    print('Address: $address');
-    print('Image URL: $imageUrl');
-
-    if (!context.mounted) {
+    if (selectedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select an image.'),
+        ),
+      );
       return;
     }
-    Navigator.of(context).pop();
+
+    if (name.isEmpty || mobileNumber.isEmpty || address.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All fields must be filled.'),
+        ),
+      );
+      return;
+    }
+
+    try {
+      
+    if (selectedImage != null) {
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('user_images/$mobileNumber.jpg');
+        final uploadTask = storageRef.putFile(selectedImage!);
+
+        await uploadTask.whenComplete(() async {
+          final imageUrl = await storageRef.getDownloadURL();
+          print('Image uploaded successfully: $imageUrl');
+        });
+      } else {
+        print('No image selected for upload.');
+      }
+
+      // Confirm the changes
+      print('Name: $name');
+      print('Mobile Number: $mobileNumber');
+      print('Address: $address');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Profile updated successfully!'),
+        ),
+      );
+
+      if (!mounted) return;
+      Navigator.of(context).pop(); 
+    } catch (error) {
+      print('Error saving changes: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to save changes. Please try again.'),
+        ),
+      );
+    }
   }
+
 
   void sendOTP() async {
     String phone = mobileNumberController.text;
