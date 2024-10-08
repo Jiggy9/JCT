@@ -105,6 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
+
                 SizedBox(height: screen.height * 0.025),
                 // Error Message
                 if (errorMessage.isNotEmpty)
@@ -137,6 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             errorMessage = error.message!;
                           });
                         }
+
                       }
                     },
                     child: const Text(

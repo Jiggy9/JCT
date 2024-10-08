@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jct/screens/feedback/feedback_screen/feedback_screen.dart';
 
 import 'package:jct/screens/user/settings/settings_page.dart';
 import 'package:jct/screens/user/usefull/emergency_alerts_check.dart';
@@ -46,6 +47,16 @@ class _ImportantScreenState extends State<ImportantScreen> {
         ),
       );
     }
+    if (identifier == 'feedback') {
+      if (!context.mounted) {
+        return;
+      }
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const FeedbackScreen(),
+        ),
+      );
+    }
   }
 
   @override
@@ -83,7 +94,6 @@ class _ImportantScreenState extends State<ImportantScreen> {
           childAspectRatio: 2.6,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
-          
         ),
         children: [
           GridItem(
