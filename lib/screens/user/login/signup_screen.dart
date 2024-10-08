@@ -128,6 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         errorMessage = '';
                       } on FirebaseAuthException catch (error) {
                         errorMessage = error.message!;
+                        print("ERROR: ${error}");
                       }
                       setState(() {});
                     }
