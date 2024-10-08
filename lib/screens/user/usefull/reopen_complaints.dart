@@ -23,6 +23,7 @@ class ReopenComplaints extends StatelessWidget {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
+        centerTitle: true,
         title: const Text('Reopen Complaints'),
       ),
       body: const Center(

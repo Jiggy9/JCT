@@ -99,6 +99,7 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
+        centerTitle: true,
         title: const Text('Emergency Alerts'),
       ),
       body: content,
