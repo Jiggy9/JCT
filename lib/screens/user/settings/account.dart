@@ -70,6 +70,7 @@ class AccountState extends State<Account> {
             ),
             const Divider(height: 20, thickness: 1),
             const SizedBox(height: 10),
+
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -93,13 +94,14 @@ class AccountState extends State<Account> {
                       ),
                     ),
                     Icon(
-                      Icons.arrow_forward,
+                      Icons.arrow_back_ios,
                       color: Colors.grey,
                     )
                   ],
                 ),
               ),
             ),
+            
             const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
@@ -124,7 +126,7 @@ class AccountState extends State<Account> {
                       ),
                     ),
                     Icon(
-                      Icons.arrow_forward,
+                      Icons.arrow_back_ios,
                       color: Colors.grey,
                     ),
                   ],
