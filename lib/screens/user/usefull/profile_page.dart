@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/welcome_screen.dart';
 import 'package:jct/widgets/user_image_picker.dart';
 
@@ -26,12 +28,54 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isMobileNumberEditable = false;
   bool isAddressEditable = false;
   bool isEditing = false;
+    bool isLoading = false; 
+    String? savedName;
+String? savedMobileNumber;
+String? savedAddress;
+String? savedImageUrl;
 
-  void saveChanges() async {
-    final name = nameController.text;
-    final mobileNumber = mobileNumberController.text;
-    final address = addressController.text;
 
+  // void saveChanges() async {
+  //   final name = nameController.text;
+  //   final mobileNumber = mobileNumberController.text;
+  //   final address = addressController.text;
+
+  //   final storageRef = FirebaseStorage.instance
+  //       .ref()
+  //       .child('user_images')
+  //       .child('$mobileNumber.jpg');
+
+  //   await storageRef.putFile(selectedImage!);
+  //   final imageUrl = await storageRef.getDownloadURL();
+
+  //   print('Name: $name');
+  //   print('Mobile Number: $mobileNumber');
+  //   print('Address: $address');
+  //   print('Image URL: $imageUrl');
+
+  //   if (!context.mounted) {
+  //     return;
+  //   }
+  //   Navigator.of(context).pop();
+  // }
+
+ void saveChanges() async {
+  final name = nameController.text;
+  final mobileNumber = mobileNumberController.text;
+  final address = addressController.text;
+
+  if (selectedImage == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please select an image')),
+    );
+    return;
+  }
+
+  setState(() {
+    isLoading = true;
+  });
+
+  try {
     final storageRef = FirebaseStorage.instance
         .ref()
         .child('user_images')
@@ -40,16 +84,37 @@ class _ProfilePageState extends State<ProfilePage> {
     await storageRef.putFile(selectedImage!);
     final imageUrl = await storageRef.getDownloadURL();
 
-    print('Name: $name');
-    print('Mobile Number: $mobileNumber');
-    print('Address: $address');
-    print('Image URL: $imageUrl');
+    await FirebaseFirestore.instance.collection('users').doc(mobileNumber).set({
+      'name': name,
+      'mobileNumber': mobileNumber,
+      'address': address,
+      'imageUrl': imageUrl,
+    });
 
-    if (!context.mounted) {
-      return;
-    }
-    Navigator.of(context).pop();
+    // Update the state to show the saved data in the UI
+    setState(() {
+      savedName = name;
+      savedMobileNumber = mobileNumber;
+      savedAddress = address;
+      savedImageUrl = imageUrl;
+      isLoading = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Profile updated successfully!')),
+    
+    );
+
+  } catch (e) {
+    setState(() {
+      isLoading = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error updating profile: $e')),
+    );
   }
+}
+
 
   void sendOTP() async {
     String phone = mobileNumberController.text;
@@ -301,27 +366,37 @@ class _ProfilePageState extends State<ProfilePage> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: ListView(
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: UserImagePicker(
-                    onPickedImage: (pickedImage) {
-                      setState(() {
-                        selectedImage = pickedImage;
-                      });
-                    },
+      body: isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : Container(
+            padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: ListView(
+                children: [
+                  // Display the selected image or the saved image
+                  Center(
+                    child: savedImageUrl != null
+                        ? Image.network(savedImageUrl!, height: 100)
+                        : UserImagePicker(
+                            onPickedImage: (pickedImage) {
+                              setState(() {
+                                selectedImage = pickedImage;
+                              });
+                            },
+                          ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 30),
+                  const SizedBox(height: 30),
+                  // Display saved data if available
+                  if (savedName != null)
+                    Text("Name: $savedName", style: const TextStyle(fontSize: 16)),
+                  if (savedMobileNumber != null)
+                    Text("Mobile: $savedMobileNumber", style: const TextStyle(fontSize: 16)),
+                  if (savedAddress != null)
+                    Text("Address: $savedAddress", style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 30),
               buildFullNameField(),
               buildMobileNumberField(),
               buildHomeAddressField(),
