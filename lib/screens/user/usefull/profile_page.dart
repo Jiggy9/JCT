@@ -58,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
   //   Navigator.of(context).pop();
   // }
 
-void saveChanges() async {
+  void saveChanges() async {
     final name = nameController.text.trim();
     final mobileNumber = mobileNumberController.text.trim();
     final address = addressController.text.trim();
