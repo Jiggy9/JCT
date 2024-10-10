@@ -28,12 +28,11 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isMobileNumberEditable = false;
   bool isAddressEditable = false;
   bool isEditing = false;
-    bool isLoading = false; 
-    String? savedName;
-String? savedMobileNumber;
-String? savedAddress;
-String? savedImageUrl;
-
+  bool isLoading = false;
+  String? savedName;
+  String? savedMobileNumber;
+  String? savedAddress;
+  String? savedImageUrl;
 
   // void saveChanges() async {
   //   final name = nameController.text;
@@ -59,62 +58,62 @@ String? savedImageUrl;
   //   Navigator.of(context).pop();
   // }
 
- void saveChanges() async {
-  final name = nameController.text;
-  final mobileNumber = mobileNumberController.text;
-  final address = addressController.text;
+  void saveChanges() async {
+    final name = nameController.text;
+    final mobileNumber = mobileNumberController.text;
+    final address = addressController.text;
 
-  if (selectedImage == null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please select an image')),
-    );
-    return;
-  }
+    if (selectedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select an image')),
+      );
+      return;
+    }
 
-  setState(() {
-    isLoading = true;
-  });
-
-  try {
-    final storageRef = FirebaseStorage.instance
-        .ref()
-        .child('user_images')
-        .child('$mobileNumber.jpg');
-
-    await storageRef.putFile(selectedImage!);
-    final imageUrl = await storageRef.getDownloadURL();
-
-    await FirebaseFirestore.instance.collection('users').doc(mobileNumber).set({
-      'name': name,
-      'mobileNumber': mobileNumber,
-      'address': address,
-      'imageUrl': imageUrl,
-    });
-
-    // Update the state to show the saved data in the UI
     setState(() {
-      savedName = name;
-      savedMobileNumber = mobileNumber;
-      savedAddress = address;
-      savedImageUrl = imageUrl;
-      isLoading = false;
+      isLoading = true;
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Profile updated successfully!')),
-    
-    );
+    try {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('user_images')
+          .child('$mobileNumber.jpg');
 
-  } catch (e) {
-    setState(() {
-      isLoading = false;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error updating profile: $e')),
-    );
+      await storageRef.putFile(selectedImage!);
+      final imageUrl = await storageRef.getDownloadURL();
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(mobileNumber)
+          .set({
+        'name': name,
+        'mobileNumber': mobileNumber,
+        'address': address,
+        'imageUrl': imageUrl,
+      });
+
+      // Update the state to show the saved data in the UI
+      setState(() {
+        savedName = name;
+        savedMobileNumber = mobileNumber;
+        savedAddress = address;
+        savedImageUrl = imageUrl;
+        isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated successfully!')),
+      );
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error updating profile: $e')),
+      );
+    }
   }
-}
-
 
   void sendOTP() async {
     String phone = mobileNumberController.text;
@@ -367,101 +366,105 @@ String? savedImageUrl;
         ),
       ),
       body: isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : Container(
-            padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
-            child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              child: ListView(
-                children: [
-                  // Display the selected image or the saved image
-                  Center(
-                    child: savedImageUrl != null
-                        ? Image.network(savedImageUrl!, height: 100)
-                        : UserImagePicker(
-                            onPickedImage: (pickedImage) {
-                              setState(() {
-                                selectedImage = pickedImage;
-                              });
-                            },
+          ? const Center(child: CircularProgressIndicator())
+          : Container(
+              padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: ListView(
+                  children: [
+                    // Display the selected image or the saved image
+                    Center(
+                      child: savedImageUrl != null
+                          ? Image.network(savedImageUrl!, height: 100)
+                          : UserImagePicker(
+                              onPickedImage: (pickedImage) {
+                                setState(() {
+                                  selectedImage = pickedImage;
+                                });
+                              },
+                            ),
+                    ),
+                    const SizedBox(height: 30),
+                    // Display saved data if available
+                    if (savedName != null)
+                      Text("Name: $savedName",
+                          style: const TextStyle(fontSize: 16)),
+                    if (savedMobileNumber != null)
+                      Text("Mobile: $savedMobileNumber",
+                          style: const TextStyle(fontSize: 16)),
+                    if (savedAddress != null)
+                      Text("Address: $savedAddress",
+                          style: const TextStyle(fontSize: 16)),
+                    const SizedBox(height: 30),
+                    buildFullNameField(),
+                    buildMobileNumberField(),
+                    buildHomeAddressField(),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
-                  ),
-                  const SizedBox(height: 30),
-                  // Display saved data if available
-                  if (savedName != null)
-                    Text("Name: $savedName", style: const TextStyle(fontSize: 16)),
-                  if (savedMobileNumber != null)
-                    Text("Mobile: $savedMobileNumber", style: const TextStyle(fontSize: 16)),
-                  if (savedAddress != null)
-                    Text("Address: $savedAddress", style: const TextStyle(fontSize: 16)),
-                  const SizedBox(height: 30),
-              buildFullNameField(),
-              buildMobileNumberField(),
-              buildHomeAddressField(),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        letterSpacing: 2,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: saveChanges,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
-                        padding: const EdgeInsets.symmetric(horizontal: 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                    child: const Text(
-                      "SAVE",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut().then(
-                        (value) => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              letterSpacing: 2,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      );
-                },
-                child: const Text(
-                  "Logout",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                        ElevatedButton(
+                          onPressed: saveChanges,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: const Text(
+                            "SAVE",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                letterSpacing: 2,
+                                color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut().then(
+                              (value) => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const WelcomeScreen(),
+                                ),
+                              ),
+                            );
+                      },
+                      child: const Text(
+                        "Logout",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
