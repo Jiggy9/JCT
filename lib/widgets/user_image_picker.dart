@@ -28,6 +28,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
     widget.onPickedImage(_pickedImageFile!);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Column(
