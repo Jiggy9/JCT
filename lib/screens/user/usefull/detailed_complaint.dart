@@ -13,6 +13,12 @@ class DetailedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        centerTitle: true,
         title: const Text('Detailed Complaint'),
       ),
       body: Padding(

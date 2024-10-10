@@ -154,6 +154,7 @@ class _SampleScreenState extends State<UserComplaints> {
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
+        centerTitle: true,
         title: const Text('Your Complaints'),
       ),
       body: content,

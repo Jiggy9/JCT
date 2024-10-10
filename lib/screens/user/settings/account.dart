@@ -70,6 +70,7 @@ class AccountState extends State<Account> {
             ),
             const Divider(height: 20, thickness: 1),
             const SizedBox(height: 10),
+
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -80,27 +81,30 @@ class AccountState extends State<Account> {
                 );
               },
               child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Profile',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: Colors.grey,
-                    )
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            
+            //const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -111,23 +115,25 @@ class AccountState extends State<Account> {
                 );
               },
               child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Change Password',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Change Password',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
                         color: Colors.grey,
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: Colors.grey,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

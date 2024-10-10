@@ -58,61 +58,28 @@ class _ProfilePageState extends State<ProfilePage> {
   //   Navigator.of(context).pop();
   // }
 
-  void saveChanges() async {
-    final name = nameController.text;
-    final mobileNumber = mobileNumberController.text;
-    final address = addressController.text;
+void saveChanges() async {
+    final name = nameController.text.trim();
+    final mobileNumber = mobileNumberController.text.trim();
+    final address = addressController.text.trim();
 
-    if (selectedImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select an image')),
-      );
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('user_images')
+        .child('$mobileNumber.jpg');
+
+    await storageRef.putFile(selectedImage!);
+    final imageUrl = await storageRef.getDownloadURL();
+
+    print('Name: $name');
+    print('Mobile Number: $mobileNumber');
+    print('Address: $address');
+    print('Image URL: $imageUrl');
+
+    if (!context.mounted) {
       return;
     }
-
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('user_images')
-          .child('$mobileNumber.jpg');
-
-      await storageRef.putFile(selectedImage!);
-      final imageUrl = await storageRef.getDownloadURL();
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(mobileNumber)
-          .set({
-        'name': name,
-        'mobileNumber': mobileNumber,
-        'address': address,
-        'imageUrl': imageUrl,
-      });
-
-      // Update the state to show the saved data in the UI
-      setState(() {
-        savedName = name;
-        savedMobileNumber = mobileNumber;
-        savedAddress = address;
-        savedImageUrl = imageUrl;
-        isLoading = false;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated successfully!')),
-      );
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error updating profile: $e')),
-      );
-    }
+    Navigator.of(context).pop();
   }
 
   void sendOTP() async {

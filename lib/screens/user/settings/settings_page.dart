@@ -13,13 +13,18 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         centerTitle: true,
         title: const Text(
           'Settings',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
+          // style: TextStyle(
+          //   fontSize: 22,
+          //   fontWeight: FontWeight.bold,
+          // ),
         ),
       ),
       backgroundColor: Colors.white,
