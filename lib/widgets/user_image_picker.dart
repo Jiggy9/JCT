@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 
 class UserImagePicker extends StatefulWidget {
   const UserImagePicker({
@@ -19,15 +20,14 @@ class _UserImagePickerState extends State<UserImagePicker> {
   File? _pickedImageFile;
 
   void _pickImage() async {
-    final pickedImage = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 50, maxWidth: 150);
+    final pickedImage = await ImagePicker().pickImage(
+        source: ImageSource.gallery, imageQuality: 50, maxWidth: 150);
     if (pickedImage == null) return;
     setState(() {
       _pickedImageFile = File(pickedImage.path);
     });
     widget.onPickedImage(_pickedImageFile!);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
           onPressed: _pickImage,
           icon: const Icon(Icons.image),
           label: Text(
-            'Add Image',
+            context.localizedString.add_image,
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
             ),

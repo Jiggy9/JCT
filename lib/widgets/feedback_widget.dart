@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/feedback_state.dart';
 import 'package:jct/screens/feedback/feedback_providers/feedback_provider.dart';
 
@@ -40,10 +41,10 @@ class FeedbackWidget extends StatelessWidget {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.deepPurple[50],
-                hintText: 'Type your feedback here',
+                hintText: context.localizedString.feedback_hint_text,
                 hintStyle: TextStyle(fontSize: 19, color: Colors.grey),
                 errorText: feedbackState.feedback.isEmpty
-                    ? "Feedback Cannot be empty "
+                    ? context.localizedString.feedback_error
                     : null,
                 errorStyle: TextStyle(
                   fontSize: 16,
@@ -71,8 +72,8 @@ class FeedbackWidget extends StatelessWidget {
                           backgroundColor: Colors.indigo[400],
                           foregroundColor: Colors.white),
                       child: RichText(
-                        text: const TextSpan(
-                            text: "Submit Feedback",
+                        text: TextSpan(
+                            text: context.localizedString.feedback_button,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                       ),
@@ -80,7 +81,7 @@ class FeedbackWidget extends StatelessWidget {
                   ),
             if (feedbackState.hasSubmitted) ...[
               const SizedBox(height: 16),
-              Text("Thankyou For your feedback 😊😊",
+              Text(context.localizedString.feedback_greet_to_user,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

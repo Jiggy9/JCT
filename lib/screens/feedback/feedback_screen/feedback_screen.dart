@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/feedback_state.dart';
 import 'package:jct/screens/feedback/feedback_providers/feedback_provider.dart'; // Add the correct import
 import 'package:jct/widgets/feedback_widget.dart';
@@ -39,13 +40,13 @@ class _FeedBackScreenState extends ConsumerState<FeedbackScreen> {
       backgroundColor: Colors.indigo[100],
       appBar: AppBar(
         backgroundColor: Colors.indigo[100],
-         leading: IconButton(
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text("Feedback"),
+        title: Text(context.localizedString.feedback),
       ),
       body: FeedbackWidget(
         feedbackController: feedbackController,

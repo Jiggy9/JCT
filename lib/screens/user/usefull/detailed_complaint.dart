@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/complaint_item.dart';
 
 class DetailedPage extends StatelessWidget {
@@ -13,13 +14,13 @@ class DetailedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         leading: IconButton(
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text('Detailed Complaint'),
+        title: Text(context.localizedString.detailed_complaint),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,9 +28,9 @@ class DetailedPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Title:',
-              style: TextStyle(
+            Text(
+              '${context.localizedString.title}:',
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -41,9 +42,9 @@ class DetailedPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Description:',
-              style: TextStyle(
+            Text(
+              '${context.localizedString.description}:',
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -56,9 +57,9 @@ class DetailedPage extends StatelessWidget {
             ),
             //upload image here
             const SizedBox(height: 16),
-            const Text(
-              'Selected Category:',
-              style: TextStyle(
+            Text(
+              '${context.localizedString.selected_category}:',
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -70,9 +71,9 @@ class DetailedPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Urgency Level:',
-              style: TextStyle(
+            Text(
+              '${context.localizedString.urgency_level}:',
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

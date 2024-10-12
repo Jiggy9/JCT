@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 
 class UserMultipleImage extends StatefulWidget {
   const UserMultipleImage({
@@ -23,8 +24,9 @@ class _UserMultipleImageState extends State<UserMultipleImage> {
       maxWidth: 150,
     );
 
-    final pickedImageFiles = pickedImage.map((image) => File(image.path)).toList();
-    
+    final pickedImageFiles =
+        pickedImage.map((image) => File(image.path)).toList();
+
     setState(() {
       _pickedImages.addAll(pickedImageFiles);
     });
@@ -40,7 +42,7 @@ class _UserMultipleImageState extends State<UserMultipleImage> {
           onPressed: _pickImage,
           icon: const Icon(Icons.image),
           label: Text(
-            'Upload Image',
+            context.localizedString.upload_images,
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
             ),

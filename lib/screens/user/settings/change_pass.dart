@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/user/settings/info_screen.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -18,6 +19,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    final _text = context.localizedString;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -26,7 +28,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text('Home'),
+        title: Text(_text.home),
       ),
       body: Center(
         child: Padding(
@@ -36,7 +38,8 @@ class _ChangePasswordState extends State<ChangePassword> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Change Password', style: TextStyle(fontSize: 25)),
+                Text(_text.change_password,
+                    style: const TextStyle(fontSize: 25)),
                 const SizedBox(height: 20),
                 TextFormField(
                   validator: validatePassword,
@@ -44,7 +47,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   obscureText: isPasswordType,
                   decoration: InputDecoration(
                     suffixIcon: togglePassword(true),
-                    hintText: 'Enter Old Password',
+                    hintText: _text.enter_old_password,
                     filled: true,
                   ),
                 ),
@@ -82,15 +85,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                           errorMessage = '';
                         } on FirebaseAuthException catch (error) {
                           errorMessage = error.message!;
-                          if (errorMessage ==
-                              'An internal error has occurred. [ INVALID_LOGIN_CREDENTIALS ]') {
-                            errorMessage = 'Invalid Password';
+                          if (errorMessage == _text.firebase_auth_error) {
+                            errorMessage = _text.invalid_password;
                           }
                         }
                       }
                       setState(() {});
                     },
-                    child: const Text('Verify'),
+                    child: Text(_text.verify),
                   ),
                 ),
               ],
@@ -115,7 +117,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   String? validatePassword(String? formPassword) {
     if (formPassword == null || formPassword.isEmpty) {
-      return 'Password is required';
+      return context.localizedString.password_is_required;
     }
     return null;
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/complaint_item.dart';
 import 'package:jct/screens/user/usefull/detailed_complaint.dart';
 
@@ -85,8 +86,8 @@ class _SampleScreenState extends State<UserComplaints> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = const Center(
-      child: Text('No complaints added yet.'),
+    Widget content = Center(
+      child: Text(context.localizedString.no_complaint_added),
     );
 
     if (_isLoading) {
@@ -155,7 +156,8 @@ class _SampleScreenState extends State<UserComplaints> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text('Your Complaints'),
+        title: Text(
+            context.localizedString.your_complaints(_complaintItems.length)),
       ),
       body: content,
     );

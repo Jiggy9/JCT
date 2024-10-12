@@ -3,6 +3,7 @@ package="com.example.jct">
     <application
         android:label="JCT"
         android:name="${applicationName}"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

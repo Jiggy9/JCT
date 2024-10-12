@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/language/helpers/language_popup.dart';
 import 'package:jct/screens/bottom_navigation/provider/bottom_nav_provider.dart';
 import 'package:jct/screens/bottom_navigation/screen/bottom_navigation.dart';
 import 'package:jct/screens/feedback/feedback_screen/feedback_screen.dart';
@@ -108,8 +110,6 @@ class _ImportantScreenState extends ConsumerState<ImportantScreen> {
     }
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     final _currentIndex = ref.watch(bottomNavigationBarIndexProvider) as int;
@@ -124,24 +124,29 @@ class _ImportantScreenState extends ConsumerState<ImportantScreen> {
 ),
 
         centerTitle: true,
-        title: const Text(
-          'Jamnagar Complaint Tracer',
+        title: Text(
+          context.localizedString.app_title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProfilePage(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.person),
-          ),
+        actions: const [
+          // IconButton(
+          //   onPressed: () {
+          //     // Navigator.push(
+          //     //   context,
+          //     //   MaterialPageRoute(
+          //     //     builder: (context) => const ProfilePage(),
+          //     //   ),
+          //     // );
+          //     // LanguagePopupMenu();
+          //   },
+          //   icon: const Icon(Icons.language_sharp),
+          // ),
+          Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            child: LanguagePopupMenu(),
+          )
         ],
       ),
       // drawer: MainDrawer(
@@ -149,11 +154,9 @@ class _ImportantScreenState extends ConsumerState<ImportantScreen> {
       // ),
       body: pages[_currentIndex],
       // bottomNavigationBar: BottomNavigationBar(items: []),
-      bottomNavigationBar: 
-           BottomNavigationScreen(
-              currentIndex: _currentIndex,
-            )
-          ,
+      bottomNavigationBar: BottomNavigationScreen(
+        currentIndex: _currentIndex,
+      ),
     );
   }
 }
