@@ -75,6 +75,7 @@ flutter:
     - assets/images/jct_welcome_logo.png
     - assets/images/splash.jpg
     - assets/images/feedback.png
+    - assets/images/logo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

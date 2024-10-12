@@ -115,6 +115,14 @@ class _ImportantScreenState extends ConsumerState<ImportantScreen> {
     final _currentIndex = ref.watch(bottomNavigationBarIndexProvider) as int;
     return Scaffold(
       appBar: AppBar(
+       leading: IconButton(
+  icon: CircleAvatar(
+    backgroundImage: AssetImage('assets/images/logo.jpg'),
+    radius: 20, // You can adjust the radius for size
+  ),
+  onPressed: () {},
+),
+
         centerTitle: true,
         title: const Text(
           'Jamnagar Complaint Tracer',
@@ -136,9 +144,9 @@ class _ImportantScreenState extends ConsumerState<ImportantScreen> {
           ),
         ],
       ),
-      drawer: MainDrawer(
-        onSelectScreen: _setScreen,
-      ),
+      // drawer: MainDrawer(
+      //   onSelectScreen: _setScreen,
+      // ),
       body: pages[_currentIndex],
       // bottomNavigationBar: BottomNavigationBar(items: []),
       bottomNavigationBar: 
