@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             Image(
               image: const AssetImage('assets/images/jct_welcome_logo.png'),
-              height: height * 0.6,
+              height: height * 0.5,
             ),
             Column(
               children: [
