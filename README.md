@@ -4,7 +4,7 @@ JCT is a Flutter-based mobile application developed for the Jamnagar Municipal C
 
 ## 📋 Table of Contents
 1. [Key Features](#-key-features)
-2. [Prequisites](#-Prerequisites)
+2. [Prequisites](#-prerequisites)
 2. [Development Tools](#️-development-tools)
 2. [Usage](#-usage)
 3. [Contributing](#-contributing)
