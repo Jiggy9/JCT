@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "597306534586",
-    "project_id": "jct-forked",
-    "storage_bucket": "jct-forked.appspot.com"
+    "project_number": "954547536575",
+    "firebase_url": "https://jct-flutter-default-rtdb.firebaseio.com",
+    "project_id": "jct-flutter",
+    "storage_bucket": "jct-flutter.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:597306534586:android:3f729788b71c256eaff083",
+        "mobilesdk_app_id": "1:954547536575:android:f70f618372d6f7bc2cbc0a",
         "android_client_info": {
           "package_name": "com.example.jct"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyh6QwHlccQ2Q4jyHNQlFEyu7h-lu3Clk"
+          "current_key": "AIzaSyCF10-kdWWUkaDKDxFzJkvJIyHrBc3Z3SY"
         }
       ],
       "services": {

@@ -44,6 +44,7 @@ dependencies:
   firebase_storage: ^12.3.2
   cloud_firestore: ^5.4.4
   equatable: ^2.0.5
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:
