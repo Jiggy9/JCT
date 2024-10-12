@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/emergency_item.dart';
 
 class EmergencyAlertsCheck extends StatefulWidget {
@@ -32,7 +33,7 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
 
       if (emergencyAlertsResponse.statusCode >= 400) {
         setState(() {
-          _error = 'Failed to fetch data. Please try again later.';
+          _error = context.localizedString.failed_to_fetch_data;
         });
       }
 
@@ -62,15 +63,15 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
       print('Error: ${emergencyAlertsResponse.statusCode}');
     } catch (err) {
       setState(() {
-        _error = 'Something went wrong! Please try again later.';
+        _error = context.localizedString.somthing_went_wrong_error;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget content = const Center(
-      child: Text('No alerts added yet.'),
+    Widget content = Center(
+      child: Text(context.localizedString.no_alerts_added),
     );
 
     if (_isLoading) {
@@ -100,7 +101,7 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text('Emergency Alerts'),
+        title: Text(context.localizedString.emergency_alert_title),
       ),
       body: content,
     );

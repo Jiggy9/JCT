@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/welcome_screen.dart';
 import 'package:jct/widgets/user_image_picker.dart';
@@ -99,12 +100,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _text = context.localizedString;
     bool validateFullName() {
       final fullName = nameController.text;
       if (fullName.length <= 2) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Full Name must be more than 2 characters.'),
+          SnackBar(
+            content: Text(_text.name_validation_error),
           ),
         );
         return false;
@@ -116,8 +118,8 @@ class _ProfilePageState extends State<ProfilePage> {
       final address = addressController.text;
       if (address.length <= 5) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Home Address must be more than 5 characters.'),
+          SnackBar(
+            content: Text(_text.home_address_validation_error),
           ),
         );
         return false;
@@ -129,8 +131,8 @@ class _ProfilePageState extends State<ProfilePage> {
       final mobileNumber = mobileNumberController.text;
       if (mobileNumber.length != 10) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Mobile number must be 10 digits.'),
+          SnackBar(
+            content: Text(_text.mobile_validation_error),
           ),
         );
         return false;
@@ -147,13 +149,13 @@ class _ProfilePageState extends State<ProfilePage> {
               child: TextField(
                 controller: addressController,
                 enabled: isAddressEditable,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 5),
-                  labelText: 'Home Address',
-                  labelStyle: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(bottom: 5),
+                  labelText: _text.home_address,
+                  labelStyle: const TextStyle(color: Colors.black),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Home Address',
-                  hintStyle: TextStyle(
+                  hintText: _text.home_address,
+                  hintStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -187,13 +189,13 @@ class _ProfilePageState extends State<ProfilePage> {
               child: TextField(
                 controller: nameController,
                 enabled: isNameEditable,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 5),
-                  labelText: '1. Your Name',
-                  labelStyle: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(bottom: 5),
+                  labelText: '1. ${_text.your_name}',
+                  labelStyle: const TextStyle(color: Colors.black),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Enter your name here ',
-                  hintStyle: TextStyle(
+                  hintText: _text.enter_your_name,
+                  hintStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -228,13 +230,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 controller: mobileNumberController,
                 enabled: isMobileNumberEditable,
                 keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 5),
-                  labelText: 'Mobile no',
-                  labelStyle: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(bottom: 5),
+                  labelText: _text.mobile_number,
+                  labelStyle: const TextStyle(color: Colors.black),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Enter your mobile no',
-                  hintStyle: TextStyle(
+                  hintText: _text.enter_mobile_number,
+                  hintStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -262,8 +264,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         controller: otpController,
                                         keyboardType: const TextInputType
                                             .numberWithOptions(),
-                                        decoration: const InputDecoration(
-                                          labelText: 'Enter Verification Code',
+                                        decoration: InputDecoration(
+                                          labelText: _text.otp,
                                           filled: true,
                                         ),
                                       ),
@@ -292,7 +294,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           }
                                           setState(() {});
                                         },
-                                        child: const Text('Verify'),
+                                        child: Text(_text.verify),
                                       ),
                                     ],
                                   ),
@@ -327,9 +329,9 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         backgroundColor: const Color.fromARGB(255, 200, 116, 215),
         centerTitle: true,
-        title: const Text(
-          "Edit Profile",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: Text(
+          _text.edit_profile,
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: isLoading
@@ -357,13 +359,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(height: 30),
                     // Display saved data if available
                     if (savedName != null)
-                      Text("Name: $savedName",
+                      Text("${_text.name}: $savedName",
                           style: const TextStyle(fontSize: 16)),
                     if (savedMobileNumber != null)
-                      Text("Mobile: $savedMobileNumber",
+                      Text("${_text.mobile_number}: $savedMobileNumber",
                           style: const TextStyle(fontSize: 16)),
                     if (savedAddress != null)
-                      Text("Address: $savedAddress",
+                      Text("${_text.home_address}: $savedAddress",
                           style: const TextStyle(fontSize: 16)),
                     const SizedBox(height: 30),
                     buildFullNameField(),
@@ -383,9 +385,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          child: const Text(
-                            "Cancel",
-                            style: TextStyle(
+                          child: Text(
+                            _text.cancel,
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                               letterSpacing: 2,
@@ -401,9 +403,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   const EdgeInsets.symmetric(horizontal: 50),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
-                          child: const Text(
-                            "SAVE",
-                            style: TextStyle(
+                          child: Text(
+                            _text.save,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
                                 letterSpacing: 2,
@@ -423,9 +425,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                       },
-                      child: const Text(
-                        "Logout",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Text(
+                        _text.logout,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],

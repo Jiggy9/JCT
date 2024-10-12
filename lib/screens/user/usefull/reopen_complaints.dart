@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 
 Widget listTile(var title, var subtitle) {
   return ListTile(
@@ -24,10 +25,10 @@ class ReopenComplaints extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text('Reopen Complaints'),
+        title: Text(context.localizedString.reopen_complaints),
       ),
-      body: const Center(
-        child: Text('Uh oh.. nothing here!'),
+      body: Center(
+        child: Text(context.localizedString.empty),
       ),
     );
   }

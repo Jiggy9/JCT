@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/language/helpers/get_localize_string.dart';
 import 'package:jct/models/complaint_item.dart';
 import 'package:jct/widgets/user_multiple_image.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +17,7 @@ class RaiseComplaint extends StatefulWidget {
 
 class _RaiseComplaintState extends State<RaiseComplaint> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  String _selectedCategory = 'Light Department';
+  String _selectedCategory = 'Water Works';
   String _selectedUrgency = 'Low';
   final title = TextEditingController();
   final description = TextEditingController();
@@ -69,15 +71,16 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
 
   @override
   Widget build(BuildContext context) {
+    final _text = context.localizedString;
     return Scaffold(
       appBar: AppBar(
-         leading: IconButton(
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text('Complaint Form'),
+        title: Text(_text.complaint_form),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -88,14 +91,14 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // Title Input
-                const Text('1. Enter Title:'),
+                Text('1. ${_text.enter_title}'),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
                     controller: title,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter complaint Title',
-                      labelText: 'Title',
+                    decoration: InputDecoration(
+                      hintText: _text.enter_complaint_title,
+                      labelText: _text.title,
                       errorStyle: TextStyle(fontSize: 18.0),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -109,7 +112,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                           value.isEmpty ||
                           value.trim().length <= 1 ||
                           value.trim().length > 100) {
-                        return 'Must be between 1 and 100 characters.';
+                        return _text.complaint_form_error_text;
                       }
                       return null;
                     },
@@ -119,7 +122,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text('2. Enter Description:'),
+                Text('2. ${_text.enter_description}'),
                 // Description Input
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -128,13 +131,13 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                     maxLines: null,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Must not be empty';
+                        return _text.complaint_form_description_error;
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
-                      hintText: 'Enter Description',
-                      labelText: 'Description',
+                    decoration: InputDecoration(
+                      hintText: _text.enter_description,
+                      labelText: _text.description,
                       errorStyle: TextStyle(fontSize: 18.0),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -149,7 +152,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text('3. Upload Images:'),
+                Text('3. ${_text.upload_images}'),
                 // Image Picker Button
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -158,7 +161,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text('4. Select Complaint Category:'),
+                Text('4. ${_text.select_complaint_category}'),
                 // Category Dropdown
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -176,26 +179,26 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                       'Urban Community Development',
                       'General Administrative',
                       'Integrated Child Development Services',
-                      'Fire Depatment',
+                      'Fire Department',
                       'Health Department',
                       'Birth & Death Department',
                       'Marriage',
                       'Water Works',
                       'Project & Town Planning',
-                      'Shop Execituve',
+                      'Shop Executive',
                       'Public Relations Officer',
                       'Account & Tax Department',
                       'Civil Department',
                     ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(getLocalizedString(context, value)),
                       );
                     }).toList(),
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text('5. Select Urgency Level:'),
+                Text('5. ${_text.select_urgency_level}'),
                 // Urgency Level Dropdown
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -210,7 +213,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(getLocalizedString(context, value)),
                       );
                     }).toList(),
                   ),
@@ -230,8 +233,8 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        child: const Text(
-                          'Submit Complaint',
+                        child: Text(
+                          _text.submit_complaint,
                           style: TextStyle(color: Colors.white, fontSize: 22),
                         ),
                       ),

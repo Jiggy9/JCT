@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/user/settings/change_pass.dart';
 import 'package:jct/screens/user/settings/settings_page.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
@@ -21,25 +22,28 @@ class AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    final _text = context.localizedString;
     return Scaffold(
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 85),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 85),
           child: Text(
-            'Setting',
-            style: TextStyle(
+            _text.settings,
+            style: const TextStyle(
               fontSize: 22,
             ),
           ),
         ),
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingsPage(),
-                ),
-              );
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => const SettingsPage(),
+              //     ),
+              //   );
+              // },
+              Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back,
@@ -51,21 +55,21 @@ class AccountState extends State<Account> {
         child: ListView(
           children: [
             const SizedBox(height: 40),
-            const Row(
+            Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.person,
                   color: Colors.blue,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text(
-                  'Account',
-                  style: TextStyle(
+                  _text.account,
+                  style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 100),
+                const SizedBox(width: 100),
               ],
             ),
             const Divider(height: 20, thickness: 1),
@@ -80,21 +84,22 @@ class AccountState extends State<Account> {
                   ),
                 );
               },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 child: ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Profile',
-                        style: TextStyle(
+                        _text.profile,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey,
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.grey,
                       )
@@ -103,7 +108,7 @@ class AccountState extends State<Account> {
                 ),
               ),
             ),
-            
+
             //const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
@@ -114,21 +119,22 @@ class AccountState extends State<Account> {
                   ),
                 );
               },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 child: ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Change Password',
-                        style: TextStyle(
+                        _text.change_password,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey,
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.grey,
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/user/usefull/emergency_alerts_check.dart';
 import 'package:jct/screens/user/usefull/raise_complaint.dart';
 import 'package:jct/screens/user/usefull/reopen_complaints.dart';
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
       ),
       children: [
         GridItem(
-          title: 'Raise Complaint',
+          title: context.localizedString.raise_complaints_title,
           onSelectGrid: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -32,7 +33,7 @@ class HomePage extends StatelessWidget {
           },
         ),
         GridItem(
-          title: 'Ongoing Complaints',
+          title: context.localizedString.ongoing_complaints_title,
           onSelectGrid: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget {
           },
         ),
         GridItem(
-          title: 'Completed Complaints',
+          title: context.localizedString.completed_complaints_title,
           onSelectGrid: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -52,7 +53,7 @@ class HomePage extends StatelessWidget {
           },
         ),
         GridItem(
-          title: 'Emergency Alerts',
+          title: context.localizedString.emergency_alert_title,
           onSelectGrid: () {
             Navigator.of(context).push(
               MaterialPageRoute(

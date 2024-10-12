@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/user/settings/account.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,16 +12,17 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final text = context.localizedString;
     return Scaffold(
       appBar: AppBar(
-         leading: IconButton(
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
-        title: const Text(
-          'Settings',
+        title: Text(
+          text.settings,
           // style: TextStyle(
           //   fontSize: 22,
           //   fontWeight: FontWeight.bold,
@@ -36,9 +38,8 @@ class _SettingsPageState extends State<SettingsPage> {
     return Container(
       padding: const EdgeInsets.only(top: 15),
       child: Column(children: [
-        menuItem(1, 'Account', Icons.person),
-       
-        menuItem(2, 'About', Icons.home)
+        menuItem(1, context.localizedString.account, Icons.person),
+        menuItem(2, context.localizedString.about, Icons.home)
       ]),
     );
   }
@@ -84,6 +85,4 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
-
 }
-
