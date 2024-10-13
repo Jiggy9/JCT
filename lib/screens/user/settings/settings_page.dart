@@ -15,11 +15,6 @@ class _SettingsPageState extends State<SettingsPage> {
     final text = context.localizedString;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         centerTitle: true,
         title: Text(
           text.settings,

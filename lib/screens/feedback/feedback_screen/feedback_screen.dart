@@ -40,11 +40,6 @@ class _FeedBackScreenState extends ConsumerState<FeedbackScreen> {
       backgroundColor: Colors.indigo[100],
       appBar: AppBar(
         backgroundColor: Colors.indigo[100],
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         centerTitle: true,
         title: Text(context.localizedString.feedback),
       ),

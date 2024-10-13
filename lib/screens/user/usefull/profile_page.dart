@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/screens/feedback/feedback_screen/feedback_screen.dart';
 import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/welcome_screen.dart';
 import 'package:jct/widgets/user_image_picker.dart';
@@ -322,16 +323,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 200, 116, 215),
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         backgroundColor: const Color.fromARGB(255, 200, 116, 215),
         centerTitle: true,
         title: Text(
           _text.edit_profile,
-          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: isLoading

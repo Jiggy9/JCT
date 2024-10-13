@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/user/settings/change_pass.dart';
 import 'package:jct/screens/user/settings/settings_page.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
 
 class Account extends StatefulWidget {
@@ -36,18 +37,16 @@ class AccountState extends State<Account> {
         ),
         leading: IconButton(
             onPressed: () {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (context) => const SettingsPage(),
-              //     ),
-              //   );
-              // },
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ImportantScreen(),
+                ),
+              );
             },
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.white,
+              color: Colors.black,
             )),
       ),
       body: Container(
