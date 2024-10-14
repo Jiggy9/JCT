@@ -86,6 +86,10 @@ flutter:
     - assets/images/splash.jpg
     - assets/images/feedback.png
     - assets/images/logo.jpg
+    - assets/images/completed.jpeg
+    - assets/images/ongoing-complaints.jpg
+    - assets/images/emergency-alert.jpg
+    - assets/images/raise-complaint.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jct/screens/bottom_navigation/provider/bottom_nav_provider.dart';
+import 'package:jct/screens/bottom_navigation/screen/bottom_navigation.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:jct/cubit/bottom_navigation_cubit.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
@@ -12,21 +15,15 @@ import 'package:jct/screens/user/usefull/user_complaints.dart';
 import 'package:jct/widgets/home_page_widget.dart';
 import 'package:jct/widgets/main_drawer.dart';
 
-class ImportantScreen extends StatefulWidget {
+class ImportantScreen extends ConsumerStatefulWidget {
   const ImportantScreen({super.key});
 
   @override
-  State<ImportantScreen> createState() => _ImportantScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ImportantScreenState();
 }
 
-class _ImportantScreenState extends State<ImportantScreen> {
-  final List<Widget> pages = const [
-    HomePage(),
-    SettingsPage(),
-    FeedbackScreen(),
-    ProfilePage(),
-  ];
-
+class _ImportantScreenState extends ConsumerState<ImportantScreen> {
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == 'monitoring') {
@@ -35,19 +32,31 @@ class _ImportantScreenState extends State<ImportantScreen> {
           builder: (context) => const UserComplaints(),
         ),
       );
-    } else if (identifier == 'settings') {
+    }
+    if (identifier == 'settings') {
+      if (!context.mounted) {
+        return;
+      }
       await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const SettingsPage(),
         ),
       );
-    } else if (identifier == 'alerts') {
+    }
+    if (identifier == 'alerts') {
+      if (!context.mounted) {
+        return;
+      }
       await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const EmergencyAlertsCheck(),
         ),
       );
-    } else if (identifier == 'feedback') {
+    }
+    if (identifier == 'feedback') {
+      if (!context.mounted) {
+        return;
+      }
       await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const FeedbackScreen(),
@@ -58,64 +67,51 @@ class _ImportantScreenState extends State<ImportantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.localizedString;
-    return BlocBuilder<BottomNavigationCubit, int>(
-      builder: (context, currentIndex) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/logo.jpg'),
-                radius: 20,
-              ),
-              onPressed: () {},
-            ),
-            centerTitle: true,
-            title: Text(
-              text.app_title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                child: LanguagePopupMenu(),
-              ),
-            ],
+    final _currentIndex = ref.watch(bottomNavigationBarIndexProvider) as int;
+    return Scaffold(
+      backgroundColor: Colors.blueGrey.shade100,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: CircleAvatar(
+            backgroundImage: AssetImage('assets/images/logo.jpg'),
+            radius: 20, // You can adjust the radius for size
           ),
-          drawer: MainDrawer(
-            onSelectScreen: _setScreen,
+          onPressed: () {},
+        ),
+        centerTitle: true,
+        title: Text(
+          context.localizedString.app_title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          body: pages[currentIndex],
-          bottomNavigationBar: SalomonBottomBar(
-            currentIndex: currentIndex,
-            onTap: (index) {
-              context.read<BottomNavigationCubit>().updateIndex(index);
-            },
-            items: [
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.home),
-                title: Text(text.home),
-                selectedColor: Colors.purple,
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.settings),
-                title: Text(text.settings),
-                selectedColor: Colors.orange,
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.feedback),
-                title: Text(text.feedback),
-                selectedColor: Colors.green,
-              ),
-              SalomonBottomBarItem(
-                icon: const Icon(Icons.person),
-                title: Text(text.profile),
-                selectedColor: Colors.blue,
-              ),
-            ],
-          ),
-        );
-      },
+        ),
+        actions: const [
+          // IconButton(
+          //   onPressed: () {
+          //     // Navigator.push(
+          //     //   context,
+          //     //   MaterialPageRoute(
+          //     //     builder: (context) => const ProfilePage(),
+          //     //   ),
+          //     // );
+          //     // LanguagePopupMenu();
+          //   },
+          //   icon: const Icon(Icons.language_sharp),
+          // ),
+          Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            child: LanguagePopupMenu(),
+          )
+        ],
+      ),
+      // drawer: MainDrawer(
+      //   onSelectScreen: _setScreen,
+      // ),
+      body: pages[_currentIndex],
+      // bottomNavigationBar: BottomNavigationBar(items: []),
+      bottomNavigationBar: BottomNavigationScreen(
+        currentIndex: _currentIndex,
+      ),
     );
   }
 }
