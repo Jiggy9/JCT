@@ -1,64 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
-import 'package:jct/language/helpers/language_popup.dart';
 import 'package:jct/screens/bottom_navigation/provider/bottom_nav_provider.dart';
 import 'package:jct/screens/bottom_navigation/screen/bottom_navigation.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:jct/cubit/bottom_navigation_cubit.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/language/helpers/language_popup.dart';
 import 'package:jct/screens/feedback/feedback_screen/feedback_screen.dart';
-
 import 'package:jct/screens/user/settings/settings_page.dart';
 import 'package:jct/screens/user/usefull/emergency_alerts_check.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
-import 'package:jct/screens/user/usefull/raise_complaint.dart';
-import 'package:jct/screens/user/usefull/reopen_complaints.dart';
 import 'package:jct/screens/user/usefull/user_complaints.dart';
-import 'package:jct/widgets/grid_item.dart';
 import 'package:jct/widgets/home_page_widget.dart';
-import 'package:jct/widgets/user_drawer.dart';
-
-// class ImportantScreen extends StatefulWidget {
-//   const ImportantScreen({super.key});
-
-//   @override
-//   State<ImportantScreen> createState() => _ImportantScreenState();
-// }
-
-// class _ImportantScreenState extends State<ImportantScreen> {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         centerTitle: true,
-//         title: const Text(
-//           'Jamnagar Complaint Tracer',
-//           style: TextStyle(
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//         actions: [
-//           IconButton(
-//             onPressed: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => const ProfilePage(),
-//                 ),
-//               );
-//             },
-//             icon: const Icon(Icons.person),
-//           ),
-//         ],
-//       ),
-//       drawer: MainDrawer(
-//         onSelectScreen: _setScreen,
-//       ),
-//       body: pages[],
-//       // bottomNavigationBar: BottomNavigationBar(items: []),
-//       bottomNavigationBar: BottomNavigationScreen(),
-//     );
-//   }
-// }
+import 'package:jct/widgets/main_drawer.dart';
 
 class ImportantScreen extends ConsumerStatefulWidget {
   const ImportantScreen({super.key});

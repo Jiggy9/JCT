@@ -51,11 +51,7 @@ class BottomNavigationScreen extends ConsumerWidget {
 
 List<Widget> pages = const [
   HomePage(),
-  // ContainerWidget(
-  //   cardImage: 'assets/images/emergency-alert.jpg',
-  //   cardText: "Raise Complaint",
-  //   cardTextColor: Colors.white,
-  // ),
+ 
   SettingsPage(),
   FeedbackScreen(),
   ProfilePage(),
