@@ -17,6 +17,8 @@ class GridItem extends StatelessWidget {
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
       child: Container(
+        height: 200,
+        width: 150,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -33,9 +35,9 @@ class GridItem extends StatelessWidget {
         child: Text(
           title,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 25,fontWeight: FontWeight.w500
-              ),
+              color: Theme.of(context).colorScheme.onBackground,
+              fontSize: 25,
+              fontWeight: FontWeight.w500),
         ),
       ),
     );

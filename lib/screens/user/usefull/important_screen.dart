@@ -114,15 +114,15 @@ class _ImportantScreenState extends ConsumerState<ImportantScreen> {
   Widget build(BuildContext context) {
     final _currentIndex = ref.watch(bottomNavigationBarIndexProvider) as int;
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade100,
       appBar: AppBar(
-       leading: IconButton(
-  icon: CircleAvatar(
-    backgroundImage: AssetImage('assets/images/logo.jpg'),
-    radius: 20, // You can adjust the radius for size
-  ),
-  onPressed: () {},
-),
-
+        leading: IconButton(
+          icon: CircleAvatar(
+            backgroundImage: AssetImage('assets/images/logo.jpg'),
+            radius: 20, // You can adjust the radius for size
+          ),
+          onPressed: () {},
+        ),
         centerTitle: true,
         title: Text(
           context.localizedString.app_title,

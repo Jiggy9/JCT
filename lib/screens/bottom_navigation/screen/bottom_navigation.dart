@@ -5,6 +5,7 @@ import 'package:jct/screens/bottom_navigation/provider/bottom_nav_provider.dart'
 import 'package:jct/screens/feedback/feedback_screen/feedback_screen.dart';
 import 'package:jct/screens/user/settings/settings_page.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
+// import 'package:jct/widgets/container_widget.dart';
 import 'package:jct/widgets/home_page_widget.dart';
 
 class BottomNavigationScreen extends ConsumerWidget {
@@ -22,16 +23,17 @@ class BottomNavigationScreen extends ConsumerWidget {
         ref.read(bottomNavigationBarIndexProvider.notifier).updateIndex(index);
       },
       items: [
-        BottomNavigationBarItem(icon:const Icon(Icons.home), label: text.home),
+        BottomNavigationBarItem(icon: const Icon(Icons.home), label: text.home),
         BottomNavigationBarItem(
-            icon:const Icon(Icons.settings), label: text.settings),
+            icon: const Icon(Icons.settings), label: text.settings),
         BottomNavigationBarItem(
-            icon:const Icon(Icons.feedback), label: text.feedback),
-        BottomNavigationBarItem(icon:const Icon(Icons.person), label: text.profile),
+            icon: const Icon(Icons.feedback), label: text.feedback),
+        BottomNavigationBarItem(
+            icon: const Icon(Icons.person), label: text.profile),
       ],
       selectedItemColor: Colors.indigo,
       unselectedItemColor: Colors.black54,
-      unselectedIconTheme:const IconThemeData(size: 28),
+      unselectedIconTheme: const IconThemeData(size: 28),
       // unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500,),
 
       showUnselectedLabels: true,
@@ -49,6 +51,11 @@ class BottomNavigationScreen extends ConsumerWidget {
 
 List<Widget> pages = const [
   HomePage(),
+  // ContainerWidget(
+  //   cardImage: 'assets/images/emergency-alert.jpg',
+  //   cardText: "Raise Complaint",
+  //   cardTextColor: Colors.white,
+  // ),
   SettingsPage(),
   FeedbackScreen(),
   ProfilePage(),
