@@ -53,6 +53,7 @@ dependencies:
   shared_preferences: ^2.3.2
   flutter_bloc: ^8.1.6
   salomon_bottom_bar: ^3.3.2
+  animated_toggle_switch: ^0.8.3
 
 
 dev_dependencies:

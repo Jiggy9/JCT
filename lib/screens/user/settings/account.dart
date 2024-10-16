@@ -4,6 +4,8 @@ import 'package:jct/screens/user/settings/change_pass.dart';
 import 'package:jct/screens/user/settings/settings_page.dart';
 import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
+import 'package:jct/theme/colors.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -23,14 +25,18 @@ class AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+    final appTheme = context.theme.appColors;
     final _text = context.localizedString;
     return Scaffold(
+      backgroundColor: appTheme.background,
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.only(left: 85),
           child: Text(
             _text.settings,
-            style: const TextStyle(
+            style: TextStyle(
+              color: appTheme.onPrimary,
               fontSize: 22,
             ),
           ),
@@ -44,9 +50,9 @@ class AccountState extends State<Account> {
                 ),
               );
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: appTheme.onPrimary,
             )),
       ),
       body: Container(
@@ -56,14 +62,15 @@ class AccountState extends State<Account> {
             const SizedBox(height: 40),
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.person,
-                  color: Colors.blue,
+                  color: appTheme.secondary,
                 ),
                 const SizedBox(width: 10),
                 Text(
                   _text.account,
-                  style: const TextStyle(
+                  style: TextStyle(
+                    color: appTheme.onBackground,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
@@ -92,15 +99,15 @@ class AccountState extends State<Account> {
                     children: [
                       Text(
                         _text.profile,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
-                          color: Colors.grey,
+                          color: appTheme.onBackground,
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.grey,
+                        color: appTheme.secondary,
                       )
                     ],
                   ),
@@ -127,15 +134,15 @@ class AccountState extends State<Account> {
                     children: [
                       Text(
                         _text.change_password,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
-                          color: Colors.grey,
+                          color: appTheme.onBackground,
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.grey,
+                        color: appTheme.secondary,
                       ),
                     ],
                   ),

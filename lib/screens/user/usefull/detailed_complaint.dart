@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/complaint_item.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class DetailedPage extends StatelessWidget {
   final ComplaintItem complaintItem;
@@ -13,10 +14,11 @@ class DetailedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.appColors.background,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
+          color: context.theme.appColors.onPrimary,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
@@ -30,10 +32,10 @@ class DetailedPage extends StatelessWidget {
           children: [
             Text(
               '${context.localizedString.title}:',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.appColors.secondary),
             ),
             Text(
               complaintItem.title,
@@ -44,10 +46,10 @@ class DetailedPage extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               '${context.localizedString.description}:',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.appColors.secondary),
             ),
             Text(
               complaintItem.description,
@@ -59,10 +61,10 @@ class DetailedPage extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               '${context.localizedString.selected_category}:',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.appColors.secondary),
             ),
             Text(
               complaintItem.selectedCategory,
@@ -73,10 +75,10 @@ class DetailedPage extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               '${context.localizedString.urgency_level}:',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.appColors.secondary),
             ),
             Text(
               complaintItem.selectedUrgency,

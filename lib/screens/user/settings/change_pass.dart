@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/main.dart';
 import 'package:jct/screens/user/settings/info_screen.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -19,12 +21,15 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    // final theme = Theme.of(context).colorScheme;
+    final appTheme = context.theme.appColors;
     final _text = context.localizedString;
     return Scaffold(
+      backgroundColor: context.theme.appColors.background,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
+          color: appTheme.onPrimary,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
@@ -46,20 +51,34 @@ class _ChangePasswordState extends State<ChangePassword> {
                   controller: password,
                   obscureText: isPasswordType,
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: appTheme.onSurface),
+                        borderRadius: BorderRadius.circular(18)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: appTheme.onSurface, width: 2.0),
+                        borderRadius: BorderRadius.circular(18)),
+                    // enabled: true,
+                    // focusColor: appTheme.secondary,
+                    fillColor: appTheme.primary,
                     suffixIcon: togglePassword(true),
                     hintText: _text.enter_old_password,
+                    hintStyle: TextStyle(color: appTheme.surface),
                     filled: true,
                   ),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   errorMessage,
-                  style: const TextStyle(
-                    color: Colors.red,
+                  style: TextStyle(
+                    color: appTheme.error,
                   ),
                 ),
                 SizedBox(
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: appTheme.background,
+                        side: BorderSide(color: appTheme.onSurface)),
                     onPressed: () async {
                       if (_key.currentState!.validate()) {
                         try {
@@ -92,7 +111,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                       }
                       setState(() {});
                     },
-                    child: Text(_text.verify),
+                    child: Text(
+                      _text.verify,
+                      style: TextStyle(color: appTheme.onPrimary),
+                    ),
                   ),
                 ),
               ],

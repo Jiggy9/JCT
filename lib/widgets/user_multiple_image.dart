@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class UserMultipleImage extends StatefulWidget {
   const UserMultipleImage({
@@ -40,11 +41,14 @@ class _UserMultipleImageState extends State<UserMultipleImage> {
       children: [
         ElevatedButton.icon(
           onPressed: _pickImage,
-          icon: const Icon(Icons.image),
+          icon: Icon(
+            Icons.image,
+            color: context.theme.appColors.secondary,
+          ),
           label: Text(
             context.localizedString.upload_images,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: context.theme.appColors.onSecondary,
             ),
           ),
         ),

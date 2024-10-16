@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jct/screens/bottom_navigation/provider/bottom_nav_provider.dart';
 import 'package:jct/screens/bottom_navigation/screen/bottom_navigation.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:jct/cubit/bottom_navigation_cubit.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
@@ -67,50 +69,64 @@ class _ImportantScreenState extends ConsumerState<ImportantScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+    final appTheme = context.theme.appColors;
     final _currentIndex = ref.watch(bottomNavigationBarIndexProvider) as int;
-    return Scaffold(
-      backgroundColor: Colors.blueGrey.shade100,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: CircleAvatar(
-            backgroundImage: AssetImage('assets/images/logo.jpg'),
-            radius: 20, // You can adjust the radius for size
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: appTheme.background,
+        appBar: AppBar(
+          backgroundColor: appTheme.primary,
+          foregroundColor: appTheme.onPrimary,
+          toolbarHeight: 80,
+          leading: IconButton(
+            icon: const CircleAvatar(
+              backgroundImage: AssetImage('assets/images/logo.jpg'),
+              radius: 20, // You can adjust the radius for size
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
-        ),
-        centerTitle: true,
-        title: Text(
-          context.localizedString.app_title,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          // centerTitle: true,
+          title: Padding(
+            padding: const EdgeInsets.only(
+              top: 8.0,
+            ),
+            child: Text(
+              maxLines: 3,
+              context.localizedString.app_title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                // color: appTheme.onPrimary,
+              ),
+            ),
           ),
+          actions: const [
+            // IconButton(
+            //   onPressed: () {
+            //     // Navigator.push(
+            //     //   context,
+            //     //   MaterialPageRoute(
+            //     //     builder: (context) => const ProfilePage(),
+            //     //   ),
+            //     // );
+            //     // LanguagePopupMenu();
+            //   },
+            //   icon: const Icon(Icons.language_sharp),
+            // ),
+            Padding(
+              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+              child: LanguagePopupMenu(),
+            )
+          ],
         ),
-        actions: const [
-          // IconButton(
-          //   onPressed: () {
-          //     // Navigator.push(
-          //     //   context,
-          //     //   MaterialPageRoute(
-          //     //     builder: (context) => const ProfilePage(),
-          //     //   ),
-          //     // );
-          //     // LanguagePopupMenu();
-          //   },
-          //   icon: const Icon(Icons.language_sharp),
-          // ),
-          Padding(
-            padding: EdgeInsets.only(left: 16.0, right: 16.0),
-            child: LanguagePopupMenu(),
-          )
-        ],
-      ),
-      // drawer: MainDrawer(
-      //   onSelectScreen: _setScreen,
-      // ),
-      body: pages[_currentIndex],
-      // bottomNavigationBar: BottomNavigationBar(items: []),
-      bottomNavigationBar: BottomNavigationScreen(
-        currentIndex: _currentIndex,
+        // drawer: MainDrawer(
+        //   onSelectScreen: _setScreen,
+        // ),
+        body: pages[_currentIndex],
+        // bottomNavigationBar: BottomNavigationBar(items: []),
+        bottomNavigationBar: BottomNavigationScreen(
+          currentIndex: _currentIndex,
+        ),
       ),
     );
   }

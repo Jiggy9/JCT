@@ -11,6 +11,10 @@ import 'package:jct/language/providers/language_provider.dart';
 import 'package:jct/screens/splash_screen.dart';
 import 'package:jct/screens/splash_screenn.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
+import 'package:jct/theme/app_theme/provider/theme_provider.dart';
+import 'package:jct/theme/app_theme/provider/value_provider.dart';
+import 'package:jct/theme/dark_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +31,8 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final language = ref.watch(localLanguageProvider);
+    final themeProvider = ref.watch(themeNotifierProvider);
+    final valueUpdate = ref.watch(valueNotifierProvider);
     return BlocProvider(
       create: (context) => BottomNavigationCubit(),
       child: MaterialApp(
@@ -35,11 +41,14 @@ class MyApp extends ConsumerWidget {
         locale: Locale(language.languageCode),
         debugShowCheckedModeBanner: false,
         title: 'JCT',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          textTheme: GoogleFonts.latoTextTheme(),
-        ),
+        themeMode: themeProvider,
+        darkTheme: AppTheme.dark,
+        // theme: ThemeData(
+        //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        //   useMaterial3: true,
+        //   textTheme: GoogleFonts.latoTextTheme(),
+        // ),
+        theme: AppTheme.light,
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapshot) {
