@@ -81,6 +81,14 @@ git push origin feature/YourFeature
 
 5. Open a pull request.
 
+## 👀 Our Valuable Contributors ✨💖 
+
+<div>
+  <a href="https://github.com/Jiggy9/JCT/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=Jiggy9/JCT&max=100" />
+  </a>
+</div>
+
 ## 📜 License
 This project is licensed under the [MIT License](LICENSE).
 
