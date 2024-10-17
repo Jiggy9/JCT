@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jct/screens/user/login/signin_screen.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 import '../settings/verify_email.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -21,10 +22,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.theme.appColors;
     final screen = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade300,
+      backgroundColor: appTheme.background,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Padding(
@@ -36,29 +38,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: screen.height * 0.1), // To add some top space
-                const Text(
-                  'Sign Up',
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                SizedBox(height: screen.height * 0.16), // To add some top space
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: appTheme.onBackground),
+                  ),
                 ),
                 SizedBox(height: screen.height * 0.05),
                 // Email text form field
                 TextFormField(
+                  autofocus: true,
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
                   validator: validateEmail,
                   controller: email,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Enter E-Mail',
-                    hintStyle: TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(color: appTheme.surface),
                     labelText: 'E-Mail',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: appTheme.surface),
+                    fillColor: appTheme.primary,
+                    filled: true,
                     errorStyle: TextStyle(fontSize: 18.0),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: appTheme.onSurface),
                       borderRadius: BorderRadius.all(
-                        Radius.circular(9.0),
+                        Radius.circular(16.0),
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: appTheme.surface),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16.0),
                       ),
                     ),
                   ),
@@ -69,17 +86,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: validatePassword,
                   controller: password,
                   obscureText: isPasswordType,
+                  autofocus: true,
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
                   decoration: InputDecoration(
                     suffixIcon: togglePassword(true),
+                    suffixIconColor: appTheme.secondary,
                     hintText: 'Enter Password',
-                    hintStyle: const TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(color: appTheme.surface),
+                    fillColor: appTheme.primary,
+                    filled: true,
                     labelText: 'Password',
-                    labelStyle: const TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: appTheme.surface),
                     errorStyle: const TextStyle(fontSize: 18.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: appTheme.onSurface),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16.0),
+                      ),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.all(
-                        Radius.circular(9.0),
+                        Radius.circular(16.0),
                       ),
                     ),
                   ),
@@ -90,17 +120,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: validateConfirmPassword,
                   controller: confirmPassword,
                   obscureText: isConfirmPasswordType,
+                  autofocus: true,
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
                   decoration: InputDecoration(
                     suffixIcon: togglePassword(false),
+                    suffixIconColor: appTheme.secondary,
                     hintText: 'Enter Confirm Password',
-                    hintStyle: const TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(color: appTheme.surface),
                     labelText: 'Confirm Password',
-                    labelStyle: const TextStyle(color: Colors.white),
-                    errorStyle: const TextStyle(fontSize: 18.0),
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                    fillColor: appTheme.primary,
+                    filled: true,
+                    labelStyle: TextStyle(color: appTheme.surface),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: appTheme.onSurface),
                       borderRadius: BorderRadius.all(
-                        Radius.circular(9.0),
+                        Radius.circular(16.0),
+                      ),
+                    ),
+                    errorStyle: const TextStyle(fontSize: 18.0),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: appTheme.surface),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16.0),
                       ),
                     ),
                   ),
@@ -119,6 +162,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: context.theme.appColors.onBackground,
+                        foregroundColor: context.theme.appColors.background),
                     onPressed: () async {
                       if (_key.currentState!.validate()) {
                         try {
@@ -138,13 +184,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             errorMessage = error.message!;
                           });
                         }
-
                       }
                     },
-                    child: const Text(
+                    child: Text(
                       "Sign Up",
                       style: TextStyle(
-                          color: Colors.deepPurple,
+                          color: appTheme.background,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -158,9 +203,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     "Already a User",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: appTheme.onBackground),
                   ),
                 ),
                 SizedBox(height: screen.height * 0.05), // Add some bottom space
@@ -174,7 +219,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget togglePassword(bool isPassword) {
     return IconButton(
-      color: Colors.white,
+      // color: Colors.red,
       onPressed: () {
         setState(() {
           isPassword
