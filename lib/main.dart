@@ -41,7 +41,8 @@ class MyApp extends ConsumerWidget {
         locale: Locale(language.languageCode),
         debugShowCheckedModeBanner: false,
         title: 'JCT',
-        themeMode: themeProvider,
+        // themeMode: themeProvider,
+        themeMode: ThemeMode.system,
         darkTheme: AppTheme.dark,
         // theme: ThemeData(
         //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
