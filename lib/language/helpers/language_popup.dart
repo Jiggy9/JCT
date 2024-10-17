@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:jct/language/helpers/language.dart';
 import 'package:jct/language/providers/language_provider.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class LanguagePopupMenu extends ConsumerWidget {
   const LanguagePopupMenu({super.key});
@@ -27,7 +28,10 @@ class LanguagePopupMenu extends ConsumerWidget {
             ),
           )
       ],
-      child: Icon(Icons.language_sharp),
+      child: Icon(
+        Icons.language_sharp,
+        color: context.theme.appColors.secondary,
+      ),
     );
   }
 }

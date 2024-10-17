@@ -7,6 +7,7 @@ import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/feedback/feedback_screen/feedback_screen.dart';
 import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/welcome_screen.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 import 'package:jct/widgets/user_image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -101,6 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.theme.appColors;
     final _text = context.localizedString;
     bool validateFullName() {
       final fullName = nameController.text;
@@ -153,13 +155,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(bottom: 5),
                   labelText: _text.home_address,
-                  labelStyle: const TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(color: appTheme.surface),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: _text.home_address,
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: appTheme.surface,
                   ),
                 ),
               ),
@@ -167,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
               icon: Icon(
                 isAddressEditable ? Icons.save : Icons.edit,
-                color: Colors.black,
+                color: appTheme.secondary,
               ),
               onPressed: () {
                 validateHomeAddress();
@@ -193,13 +195,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(bottom: 5),
                   labelText: '1. ${_text.your_name}',
-                  labelStyle: const TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(color: appTheme.surface),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: _text.enter_your_name,
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: appTheme.surface,
                   ),
                 ),
               ),
@@ -207,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
               icon: Icon(
                 isNameEditable ? Icons.save : Icons.edit,
-                color: Colors.black,
+                color: appTheme.secondary,
               ),
               onPressed: () {
                 validateFullName();
@@ -234,13 +236,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(bottom: 5),
                   labelText: _text.mobile_number,
-                  labelStyle: const TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(color: appTheme.surface),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: _text.enter_mobile_number,
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: appTheme.surface,
                   ),
                 ),
               ),
@@ -248,7 +250,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
                 icon: Icon(
                   isMobileNumberEditable ? Icons.save : Icons.edit,
-                  color: Colors.black,
+                  color: appTheme.secondary,
                 ),
                 onPressed: isMobileNumberEditable
                     ? () {
@@ -272,8 +274,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       Text(
                                         errormessage,
-                                        style: const TextStyle(
-                                            color: Colors.red, fontSize: 15),
+                                        style: TextStyle(
+                                            color: appTheme.error,
+                                            fontSize: 15),
                                       ),
                                       const SizedBox(height: 20),
                                       ElevatedButton(
@@ -321,14 +324,14 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 200, 116, 215),
+      backgroundColor: appTheme.background,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 200, 116, 215),
+        backgroundColor: appTheme.background,
         centerTitle: true,
         title: Text(
           _text.edit_profile,
-          style:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: appTheme.onBackground, fontWeight: FontWeight.bold),
         ),
       ),
       body: isLoading
@@ -377,36 +380,39 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.pop(context);
                           },
                           style: OutlinedButton.styleFrom(
+                            // side: BorderSide(color: appTheme.onSurface),
+                            backgroundColor: appTheme.primary,
+                            foregroundColor: appTheme.onPrimary,
                             padding: const EdgeInsets.symmetric(horizontal: 50),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
+                                borderRadius: BorderRadius.circular(20),
+                                side: BorderSide(color: appTheme.onSurface)),
                           ),
                           child: Text(
                             _text.cancel,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                               letterSpacing: 2,
-                              color: Colors.black,
+                              color: appTheme.onBackground,
                             ),
                           ),
                         ),
                         ElevatedButton(
                           onPressed: saveChanges,
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepPurple,
+                              backgroundColor: appTheme.onBackground,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 50),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
                           child: Text(
                             _text.save,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
                                 letterSpacing: 2,
-                                color: Colors.black),
+                                color: appTheme.background),
                           ),
                         ),
                       ],
@@ -422,9 +428,16 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                       },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: appTheme.background,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          side: BorderSide(color: appTheme.onSurface)),
                       child: Text(
                         _text.logout,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appTheme.onPrimary),
                       ),
                     ),
                   ],

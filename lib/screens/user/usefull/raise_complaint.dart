@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/language/helpers/get_localize_string.dart';
 import 'package:jct/models/complaint_item.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 import 'package:jct/widgets/user_multiple_image.dart';
 import 'package:http/http.dart' as http;
 
@@ -71,12 +72,14 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.theme.appColors;
     final _text = context.localizedString;
     return Scaffold(
+      backgroundColor: appTheme.background,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
+          color: appTheme.onPrimary,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
@@ -99,6 +102,12 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                     decoration: InputDecoration(
                       hintText: _text.enter_complaint_title,
                       labelText: _text.title,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: appTheme.onSurface),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(14.0),
+                        ),
+                      ),
                       errorStyle: TextStyle(fontSize: 18.0),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -136,6 +145,12 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                       return null;
                     },
                     decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: appTheme.onSurface),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(14.0),
+                        ),
+                      ),
                       hintText: _text.enter_description,
                       labelText: _text.description,
                       errorStyle: TextStyle(fontSize: 18.0),
@@ -228,14 +243,15 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                       child: ElevatedButton(
                         onPressed: _submitItem,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
+                          backgroundColor: appTheme.onSecondary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                         child: Text(
                           _text.submit_complaint,
-                          style: TextStyle(color: Colors.white, fontSize: 22),
+                          style: TextStyle(
+                              color: appTheme.background, fontSize: 22),
                         ),
                       ),
                     ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/emergency_item.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class EmergencyAlertsCheck extends StatefulWidget {
   const EmergencyAlertsCheck({super.key});
@@ -94,10 +95,11 @@ class _EmergencyAlertsCheckState extends State<EmergencyAlertsCheck> {
     }
 
     return Scaffold(
+      backgroundColor: context.theme.appColors.background,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
+          color: context.theme.appColors.onPrimary,
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
