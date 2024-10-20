@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jct/screens/user/usefull/important_screen.dart';
 
 import 'package:jct/screens/user/login/signup_screen.dart';
@@ -189,6 +190,33 @@ class _SignInScreenState extends State<SignInScreen> {
                 child: Text(
                   "New User",
                   style: TextStyle(color: context.theme.appColors.onBackground),
+                ),
+              ),
+              Container(
+                height: 50,
+                alignment: Alignment.center,
+                child: IconButton(
+                  icon: Image.asset('assets/images/google.png'),
+                  iconSize: 50,
+                  onPressed: () async {
+                    GoogleSignInAccount? googleUser =
+                        await GoogleSignIn().signIn();
+                    GoogleSignInAuthentication? googleAuth =
+                        await googleUser?.authentication;
+                    try {
+                      AuthCredential credential = GoogleAuthProvider.credential(
+                        accessToken: googleAuth?.accessToken,
+                        idToken: googleAuth?.idToken,
+                      );
+                      await FirebaseAuth.instance
+                          .signInWithCredential(credential)
+                          .whenComplete(() {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ImportantScreen(),));
+                      });
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
                 ),
               ),
             ],
