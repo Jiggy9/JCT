@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/complaint_item.dart';
 import 'package:jct/screens/user/usefull/detailed_complaint.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class UserComplaints extends StatefulWidget {
   const UserComplaints({super.key});
@@ -85,8 +87,8 @@ class _SampleScreenState extends State<UserComplaints> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = const Center(
-      child: Text('No complaints added yet.'),
+    Widget content = Center(
+      child: Text(context.localizedString.no_complaint_added),
     );
 
     if (_isLoading) {
@@ -103,33 +105,44 @@ class _SampleScreenState extends State<UserComplaints> {
             _removeItem(_complaintItems[index]);
           },
           key: ValueKey(_complaintItems[index].id),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailedPage(
-                    complaintItem: _complaintItems[index],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 14),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailedPage(
+                      complaintItem: _complaintItems[index],
+                    ),
+                  ),
+                );
+              },
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      width: 2, color: context.theme.appColors.onPrimary),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                title: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(_complaintItems[index].title),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    _complaintItems[index].description,
+                    style:
+                        TextStyle(color: context.theme.appColors.onBackground),
                   ),
                 ),
-              );
-            },
-            child: ListTile(
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(width: 2),
-                borderRadius: BorderRadius.circular(20),
+                titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                subtitleTextStyle: Theme.of(context).textTheme.bodyMedium,
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: context.theme.appColors.secondary,
+                ),
               ),
-              title: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(_complaintItems[index].title),
-              ),
-              subtitle: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(_complaintItems[index].description),
-              ),
-              titleTextStyle: Theme.of(context).textTheme.titleLarge,
-              subtitleTextStyle: Theme.of(context).textTheme.bodyMedium,
-              trailing: const Icon(Icons.arrow_forward_ios),
             ),
           ),
         ),
@@ -148,13 +161,16 @@ class _SampleScreenState extends State<UserComplaints> {
     }
 
     return Scaffold(
+      backgroundColor: context.theme.appColors.background,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
+          color: context.theme.appColors.onPrimary,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text('Your Complaints'),
+        centerTitle: true,
+        title: Text(
+            context.localizedString.your_complaints(_complaintItems.length)),
       ),
       body: content,
     );

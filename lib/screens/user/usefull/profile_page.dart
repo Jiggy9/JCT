@@ -1,8 +1,13 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/screens/feedback/feedback_screen/feedback_screen.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/welcome_screen.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 import 'package:jct/widgets/user_image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,11 +31,40 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isMobileNumberEditable = false;
   bool isAddressEditable = false;
   bool isEditing = false;
+  bool isLoading = false;
+  String? savedName;
+  String? savedMobileNumber;
+  String? savedAddress;
+  String? savedImageUrl;
+
+  // void saveChanges() async {
+  //   final name = nameController.text;
+  //   final mobileNumber = mobileNumberController.text;
+  //   final address = addressController.text;
+
+  //   final storageRef = FirebaseStorage.instance
+  //       .ref()
+  //       .child('user_images')
+  //       .child('$mobileNumber.jpg');
+
+  //   await storageRef.putFile(selectedImage!);
+  //   final imageUrl = await storageRef.getDownloadURL();
+
+  //   print('Name: $name');
+  //   print('Mobile Number: $mobileNumber');
+  //   print('Address: $address');
+  //   print('Image URL: $imageUrl');
+
+  //   if (!context.mounted) {
+  //     return;
+  //   }
+  //   Navigator.of(context).pop();
+  // }
 
   void saveChanges() async {
-    final name = nameController.text;
-    final mobileNumber = mobileNumberController.text;
-    final address = addressController.text;
+    final name = nameController.text.trim();
+    final mobileNumber = mobileNumberController.text.trim();
+    final address = addressController.text.trim();
 
     final storageRef = FirebaseStorage.instance
         .ref()
@@ -68,12 +102,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.theme.appColors;
+    final _text = context.localizedString;
     bool validateFullName() {
       final fullName = nameController.text;
       if (fullName.length <= 2) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Full Name must be more than 2 characters.'),
+          SnackBar(
+            content: Text(_text.name_validation_error),
           ),
         );
         return false;
@@ -85,8 +121,8 @@ class _ProfilePageState extends State<ProfilePage> {
       final address = addressController.text;
       if (address.length <= 5) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Home Address must be more than 5 characters.'),
+          SnackBar(
+            content: Text(_text.home_address_validation_error),
           ),
         );
         return false;
@@ -98,8 +134,8 @@ class _ProfilePageState extends State<ProfilePage> {
       final mobileNumber = mobileNumberController.text;
       if (mobileNumber.length != 10) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Mobile number must be 10 digits.'),
+          SnackBar(
+            content: Text(_text.mobile_validation_error),
           ),
         );
         return false;
@@ -116,16 +152,16 @@ class _ProfilePageState extends State<ProfilePage> {
               child: TextField(
                 controller: addressController,
                 enabled: isAddressEditable,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 5),
-                  labelText: 'Home Address',
-                  labelStyle: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(bottom: 5),
+                  labelText: _text.home_address,
+                  labelStyle: TextStyle(color: appTheme.surface),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Home Address',
+                  hintText: _text.home_address,
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: appTheme.surface,
                   ),
                 ),
               ),
@@ -133,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
               icon: Icon(
                 isAddressEditable ? Icons.save : Icons.edit,
-                color: Colors.black,
+                color: appTheme.secondary,
               ),
               onPressed: () {
                 validateHomeAddress();
@@ -156,16 +192,16 @@ class _ProfilePageState extends State<ProfilePage> {
               child: TextField(
                 controller: nameController,
                 enabled: isNameEditable,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 5),
-                  labelText: '1. Your Name',
-                  labelStyle: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(bottom: 5),
+                  labelText: '1. ${_text.your_name}',
+                  labelStyle: TextStyle(color: appTheme.surface),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Enter your name here ',
+                  hintText: _text.enter_your_name,
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: appTheme.surface,
                   ),
                 ),
               ),
@@ -173,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
               icon: Icon(
                 isNameEditable ? Icons.save : Icons.edit,
-                color: Colors.black,
+                color: appTheme.secondary,
               ),
               onPressed: () {
                 validateFullName();
@@ -197,16 +233,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 controller: mobileNumberController,
                 enabled: isMobileNumberEditable,
                 keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 5),
-                  labelText: 'Mobile no',
-                  labelStyle: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(bottom: 5),
+                  labelText: _text.mobile_number,
+                  labelStyle: TextStyle(color: appTheme.surface),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: 'Enter your mobile no',
+                  hintText: _text.enter_mobile_number,
                   hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: appTheme.surface,
                   ),
                 ),
               ),
@@ -214,7 +250,7 @@ class _ProfilePageState extends State<ProfilePage> {
             IconButton(
                 icon: Icon(
                   isMobileNumberEditable ? Icons.save : Icons.edit,
-                  color: Colors.black,
+                  color: appTheme.secondary,
                 ),
                 onPressed: isMobileNumberEditable
                     ? () {
@@ -231,15 +267,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                         controller: otpController,
                                         keyboardType: const TextInputType
                                             .numberWithOptions(),
-                                        decoration: const InputDecoration(
-                                          labelText: 'Enter Verification Code',
+                                        decoration: InputDecoration(
+                                          labelText: _text.otp,
                                           filled: true,
                                         ),
                                       ),
                                       Text(
                                         errormessage,
-                                        style: const TextStyle(
-                                            color: Colors.red, fontSize: 15),
+                                        style: TextStyle(
+                                            color: appTheme.error,
+                                            fontSize: 15),
                                       ),
                                       const SizedBox(height: 20),
                                       ElevatedButton(
@@ -261,7 +298,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           }
                                           setState(() {});
                                         },
-                                        child: const Text('Verify'),
+                                        child: Text(_text.verify),
                                       ),
                                     ],
                                   ),
@@ -287,106 +324,126 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 200, 116, 215),
+      backgroundColor: appTheme.background,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: const Color.fromARGB(255, 200, 116, 215),
+        backgroundColor: appTheme.background,
         centerTitle: true,
-        title: const Text(
-          "Edit Profile",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: Text(
+          _text.edit_profile,
+          style: TextStyle(
+              color: appTheme.onBackground, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: ListView(
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: UserImagePicker(
-                    onPickedImage: (pickedImage) {
-                      setState(() {
-                        selectedImage = pickedImage;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              buildFullNameField(),
-              buildMobileNumberField(),
-              buildHomeAddressField(),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Container(
+              padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: ListView(
+                  children: [
+                    // Display the selected image or the saved image
+                    Center(
+                      child: savedImageUrl != null
+                          ? Image.network(savedImageUrl!, height: 100)
+                          : UserImagePicker(
+                              onPickedImage: (pickedImage) {
+                                setState(() {
+                                  selectedImage = pickedImage;
+                                });
+                              },
+                            ),
                     ),
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        letterSpacing: 2,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: saveChanges,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
-                        padding: const EdgeInsets.symmetric(horizontal: 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                    child: const Text(
-                      "SAVE",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut().then(
-                        (value) => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
+                    const SizedBox(height: 30),
+                    // Display saved data if available
+                    if (savedName != null)
+                      Text("${_text.name}: $savedName",
+                          style: const TextStyle(fontSize: 16)),
+                    if (savedMobileNumber != null)
+                      Text("${_text.mobile_number}: $savedMobileNumber",
+                          style: const TextStyle(fontSize: 16)),
+                    if (savedAddress != null)
+                      Text("${_text.home_address}: $savedAddress",
+                          style: const TextStyle(fontSize: 16)),
+                    const SizedBox(height: 30),
+                    buildFullNameField(),
+                    buildMobileNumberField(),
+                    buildHomeAddressField(),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            // side: BorderSide(color: appTheme.onSurface),
+                            backgroundColor: appTheme.primary,
+                            foregroundColor: appTheme.onPrimary,
+                            padding: const EdgeInsets.symmetric(horizontal: 50),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                side: BorderSide(color: appTheme.onSurface)),
+                          ),
+                          child: Text(
+                            _text.cancel,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              letterSpacing: 2,
+                              color: appTheme.onBackground,
+                            ),
                           ),
                         ),
-                      );
-                },
-                child: const Text(
-                  "Logout",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                        ElevatedButton(
+                          onPressed: saveChanges,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: appTheme.onBackground,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: Text(
+                            _text.save,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                letterSpacing: 2,
+                                color: appTheme.background),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut().then(
+                              (value) => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const WelcomeScreen(),
+                                ),
+                              ),
+                            );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: appTheme.background,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          side: BorderSide(color: appTheme.onSurface)),
+                      child: Text(
+                        _text.logout,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appTheme.onPrimary),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

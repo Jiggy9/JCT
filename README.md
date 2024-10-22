@@ -4,7 +4,7 @@ JCT is a Flutter-based mobile application developed for the Jamnagar Municipal C
 
 ## 📋 Table of Contents
 1. [Key Features](#-key-features)
-2. [Prequisites](## ⚙️ Prerequisites)
+2. [Prerequisites](#%EF%B8%8F-prerequisites)
 2. [Development Tools](#️-development-tools)
 2. [Usage](#-usage)
 3. [Contributing](#-contributing)
@@ -80,6 +80,14 @@ git push origin feature/YourFeature
 ```
 
 5. Open a pull request.
+
+## 👀 Our Valuable Contributors ✨💖 
+
+<div>
+  <a href="https://github.com/Jiggy9/JCT/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=Jiggy9/JCT&max=100" />
+  </a>
+</div>
 
 ## 📜 License
 This project is licensed under the [MIT License](LICENSE).

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:jct/screens/staff/branch_login.dart';
 import 'package:jct/screens/user/login/signin_screen.dart';
 import 'package:jct/screens/user/login/signup_screen.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = context.theme.appColors;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
@@ -18,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             Image(
               image: const AssetImage('assets/images/jct_welcome_logo.png'),
-              height: height * 0.6,
+              height: height * 0.5,
             ),
             Column(
               children: [
@@ -50,8 +52,9 @@ class WelcomeScreen extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      foregroundColor: Colors.black,
-                      side: const BorderSide(color: Colors.black),
+                      foregroundColor: appTheme.onBackground,
+                      // backgroundColor: appTheme.surface,
+                      side: BorderSide(color: appTheme.onSurface),
                       padding: const EdgeInsets.symmetric(
                         vertical: 15,
                       ),
@@ -65,9 +68,9 @@ class WelcomeScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.deepPurple,
-                      side: const BorderSide(color: Colors.black),
+                      foregroundColor: appTheme.background,
+                      backgroundColor: appTheme.onBackground,
+                      // side: const BorderSide(color: Colors.black),
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
                     onPressed: () {
@@ -78,7 +81,10 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text('SIGNUP'),
+                    child: const Text(
+                      'SIGNUP',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ],
@@ -92,10 +98,11 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text(
+              child: Text(
                 'Branch Head Login',
                 style: TextStyle(
                   fontSize: 15,
+                  color: appTheme.onPrimary,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jct/screens/user/usefull/important_screen.dart';
 
 import 'package:jct/screens/user/login/signup_screen.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 import 'forgot_password.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -21,9 +23,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final aapTheme = context.theme.appColors;
     final screen = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade300,
+      backgroundColor: context.theme.appColors.background,
       body: Padding(
         padding: EdgeInsets.only(
             left: screen.width * 0.075, right: screen.width * 0.075),
@@ -32,29 +35,46 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Sign In',
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Sign In',
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: context.theme.appColors.onBackground),
+                ),
               ),
               SizedBox(height: screen.height * 0.05),
               TextFormField(
                 validator: validateEmail,
                 controller: email,
-                decoration: const InputDecoration(
+                autofocus: true,
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
+                decoration: InputDecoration(
                   hintText: 'Enter Your E-Mail',
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: context.theme.appColors.surface),
                   labelText: 'E-Mail',
                   labelStyle: TextStyle(
-                    color: Colors.white,
+                      color: context.theme.appColors.surface, fontSize: 18.0),
+                  errorStyle: const TextStyle(fontSize: 18.0),
+                  // focusColor: context.theme.appColors.onSurface,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.theme.appColors.onSurface,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(16.0),
+                    ),
                   ),
-                  errorStyle: TextStyle(fontSize: 18.0),
-                  border: OutlineInputBorder(
+                  filled: true,
+                  fillColor: context.theme.appColors.primary,
+                  border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
+                      Radius.circular(16.0),
                     ),
                   ),
                 ),
@@ -64,19 +84,34 @@ class _SignInScreenState extends State<SignInScreen> {
                 validator: validatePassword,
                 controller: password,
                 obscureText: isPasswordType,
+                autofocus: true,
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
                 decoration: InputDecoration(
                   suffixIcon: togglePassword(true),
+                  suffixIconColor: context.theme.appColors.secondary,
                   hintText: 'Enter Your Password',
-                  hintStyle: const TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: context.theme.appColors.surface),
                   labelText: 'Password',
-                  labelStyle: const TextStyle(
-                    color: Colors.white,
-                  ),
+                  labelStyle: TextStyle(
+                      color: context.theme.appColors.surface, fontSize: 18),
                   errorStyle: const TextStyle(fontSize: 18.0),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(9.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.theme.appColors.onSurface,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(16.0),
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: context.theme.appColors.primary,
+                  border: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: context.theme.appColors.surface),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(16.0),
                     ),
                   ),
                 ),
@@ -92,21 +127,24 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     "Forgot Password",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: context.theme.appColors.secondary),
                   ),
                 ),
               ),
               Text(
                 errorMessage,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: context.theme.appColors.error,
                 ),
               ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: context.theme.appColors.onBackground,
+                      foregroundColor: context.theme.appColors.background),
                   onPressed: () async {
                     if (_key.currentState!.validate()) {
                       try {
@@ -149,9 +187,36 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   );
                 },
-                child: const Text(
+                child: Text(
                   "New User",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: context.theme.appColors.onBackground),
+                ),
+              ),
+              Container(
+                height: 50,
+                alignment: Alignment.center,
+                child: IconButton(
+                  icon: Image.asset('assets/images/google.png'),
+                  iconSize: 50,
+                  onPressed: () async {
+                    GoogleSignInAccount? googleUser =
+                        await GoogleSignIn().signIn();
+                    GoogleSignInAuthentication? googleAuth =
+                        await googleUser?.authentication;
+                    try {
+                      AuthCredential credential = GoogleAuthProvider.credential(
+                        accessToken: googleAuth?.accessToken,
+                        idToken: googleAuth?.idToken,
+                      );
+                      await FirebaseAuth.instance
+                          .signInWithCredential(credential)
+                          .whenComplete(() {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ImportantScreen(),));
+                      });
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
                 ),
               ),
             ],
@@ -163,7 +228,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget togglePassword(bool isPassword) {
     return IconButton(
-        color: Colors.white,
+        // color: context.theme.appColors.onSecondary,
         onPressed: () {
           setState(() {
             isPasswordType = !isPasswordType;

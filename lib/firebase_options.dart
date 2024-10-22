@@ -17,29 +17,17 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -52,12 +40,54 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCyS2rb60Fx-XzRvgTsVGVxdD_nCk3lnz8',
-    appId: '1:443612017854:android:ca95154145d440266adaef',
-    messagingSenderId: '443612017854',
-    projectId: 'flutter-cli-test-2004',
-    storageBucket: 'flutter-cli-test-2004.appspot.com',
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBN1yXiJt98tjzYedHfbOp9tlzb5-j8flI',
+    appId: '1:954547536575:web:c20285a9b83ee5142cbc0a',
+    messagingSenderId: '954547536575',
+    projectId: 'jct-flutter',
+    authDomain: 'jct-flutter.firebaseapp.com',
+    databaseURL: 'https://jct-flutter-default-rtdb.firebaseio.com',
+    storageBucket: 'jct-flutter.appspot.com',
+    measurementId: 'G-TN9MQ92HHW',
   );
 
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCF10-kdWWUkaDKDxFzJkvJIyHrBc3Z3SY',
+    appId: '1:954547536575:android:f70f618372d6f7bc2cbc0a',
+    messagingSenderId: '954547536575',
+    projectId: 'jct-flutter',
+    databaseURL: 'https://jct-flutter-default-rtdb.firebaseio.com',
+    storageBucket: 'jct-flutter.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCXxTmBUJN8_e3nBAQlQ5SkHcuiEEUQmvM',
+    appId: '1:954547536575:ios:422b9b6324518b542cbc0a',
+    messagingSenderId: '954547536575',
+    projectId: 'jct-flutter',
+    databaseURL: 'https://jct-flutter-default-rtdb.firebaseio.com',
+    storageBucket: 'jct-flutter.appspot.com',
+    iosBundleId: 'com.example.jct',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCXxTmBUJN8_e3nBAQlQ5SkHcuiEEUQmvM',
+    appId: '1:954547536575:ios:422b9b6324518b542cbc0a',
+    messagingSenderId: '954547536575',
+    projectId: 'jct-flutter',
+    databaseURL: 'https://jct-flutter-default-rtdb.firebaseio.com',
+    storageBucket: 'jct-flutter.appspot.com',
+    iosBundleId: 'com.example.jct',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBN1yXiJt98tjzYedHfbOp9tlzb5-j8flI',
+    appId: '1:954547536575:web:e59deb54878fc18f2cbc0a',
+    messagingSenderId: '954547536575',
+    projectId: 'jct-flutter',
+    authDomain: 'jct-flutter.firebaseapp.com',
+    databaseURL: 'https://jct-flutter-default-rtdb.firebaseio.com',
+    storageBucket: 'jct-flutter.appspot.com',
+    measurementId: 'G-DJ7LLY8PKR',
+  );
 }

@@ -1,6 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/models/feedback_state.dart';
 import 'package:jct/screens/feedback/feedback_providers/feedback_provider.dart'; // Add the correct import
+import 'package:jct/theme/app_theme/app_theme.dart';
 import 'package:jct/widgets/feedback_widget.dart';
 
 // FeedbackScreen as a ConsumerStatefulWidget
@@ -35,10 +39,11 @@ class _FeedBackScreenState extends ConsumerState<FeedbackScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.indigo[100],
+      backgroundColor: context.theme.appColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.indigo[100],
-        title: const Text("Feedback"),
+        backgroundColor: context.theme.appColors.background,
+        centerTitle: true,
+        title: Text(context.localizedString.feedback),
       ),
       body: FeedbackWidget(
         feedbackController: feedbackController,

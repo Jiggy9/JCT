@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 Widget listTile(var title, var subtitle) {
   return ListTile(
@@ -17,16 +19,18 @@ class ReopenComplaints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.appColors.background,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.black,
+          color: context.theme.appColors.onPrimary,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text('Reopen Complaints'),
+        centerTitle: true,
+        title: Text(context.localizedString.reopen_complaints),
       ),
-      body: const Center(
-        child: Text('Uh oh.. nothing here!'),
+      body: Center(
+        child: Text(context.localizedString.empty),
       ),
     );
   }

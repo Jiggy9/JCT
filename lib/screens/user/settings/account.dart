@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/screens/user/settings/change_pass.dart';
 import 'package:jct/screens/user/settings/settings_page.dart';
+import 'package:jct/screens/user/usefull/important_screen.dart';
 import 'package:jct/screens/user/usefull/profile_page.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
+import 'package:jct/theme/colors.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -21,13 +25,18 @@ class AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+    final appTheme = context.theme.appColors;
+    final _text = context.localizedString;
     return Scaffold(
+      backgroundColor: appTheme.background,
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 85),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 85),
           child: Text(
-            'Setting',
+            _text.settings,
             style: TextStyle(
+              color: appTheme.onPrimary,
               fontSize: 22,
             ),
           ),
@@ -37,13 +46,13 @@ class AccountState extends State<Account> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const SettingsPage(),
+                  builder: (context) => const ImportantScreen(),
                 ),
               );
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
-              color: Colors.white,
+              color: appTheme.onPrimary,
             )),
       ),
       body: Container(
@@ -51,25 +60,27 @@ class AccountState extends State<Account> {
         child: ListView(
           children: [
             const SizedBox(height: 40),
-            const Row(
+            Row(
               children: [
                 Icon(
                   Icons.person,
-                  color: Colors.blue,
+                  color: appTheme.secondary,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text(
-                  'Account',
+                  _text.account,
                   style: TextStyle(
+                    color: appTheme.onBackground,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 100),
+                const SizedBox(width: 100),
               ],
             ),
             const Divider(height: 20, thickness: 1),
             const SizedBox(height: 10),
+
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -79,28 +90,32 @@ class AccountState extends State<Account> {
                   ),
                 );
               },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Profile',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _text.profile,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: appTheme.onBackground,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: Colors.grey,
-                    )
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: appTheme.secondary,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+
+            //const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -110,24 +125,27 @@ class AccountState extends State<Account> {
                   ),
                 );
               },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Change Password',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _text.change_password,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: appTheme.onBackground,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: Colors.grey,
-                    ),
-                  ],
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: appTheme.secondary,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

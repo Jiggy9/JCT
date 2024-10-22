@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
+import 'package:jct/main.dart';
 import 'package:jct/screens/user/settings/info_screen.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -18,9 +21,19 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    // final theme = Theme.of(context).colorScheme;
+    final appTheme = context.theme.appColors;
+    final _text = context.localizedString;
     return Scaffold(
+      backgroundColor: context.theme.appColors.background,
       appBar: AppBar(
-        title: const Text('Home'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: appTheme.onPrimary,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        centerTitle: true,
+        title: Text(_text.home),
       ),
       body: Center(
         child: Padding(
@@ -30,27 +43,42 @@ class _ChangePasswordState extends State<ChangePassword> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Change Password', style: TextStyle(fontSize: 25)),
+                Text(_text.change_password,
+                    style: const TextStyle(fontSize: 25)),
                 const SizedBox(height: 20),
                 TextFormField(
                   validator: validatePassword,
                   controller: password,
                   obscureText: isPasswordType,
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: appTheme.onSurface),
+                        borderRadius: BorderRadius.circular(18)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: appTheme.onSurface, width: 2.0),
+                        borderRadius: BorderRadius.circular(18)),
+                    // enabled: true,
+                    // focusColor: appTheme.secondary,
+                    fillColor: appTheme.primary,
                     suffixIcon: togglePassword(true),
-                    hintText: 'Enter Old Password',
+                    hintText: _text.enter_old_password,
+                    hintStyle: TextStyle(color: appTheme.surface),
                     filled: true,
                   ),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   errorMessage,
-                  style: const TextStyle(
-                    color: Colors.red,
+                  style: TextStyle(
+                    color: appTheme.error,
                   ),
                 ),
                 SizedBox(
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: appTheme.background,
+                        side: BorderSide(color: appTheme.onSurface)),
                     onPressed: () async {
                       if (_key.currentState!.validate()) {
                         try {
@@ -76,15 +104,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                           errorMessage = '';
                         } on FirebaseAuthException catch (error) {
                           errorMessage = error.message!;
-                          if (errorMessage ==
-                              'An internal error has occurred. [ INVALID_LOGIN_CREDENTIALS ]') {
-                            errorMessage = 'Invalid Password';
+                          if (errorMessage == _text.firebase_auth_error) {
+                            errorMessage = _text.invalid_password;
                           }
                         }
                       }
                       setState(() {});
                     },
-                    child: const Text('Verify'),
+                    child: Text(
+                      _text.verify,
+                      style: TextStyle(color: appTheme.onPrimary),
+                    ),
                   ),
                 ),
               ],
@@ -109,7 +139,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   String? validatePassword(String? formPassword) {
     if (formPassword == null || formPassword.isEmpty) {
-      return 'Password is required';
+      return context.localizedString.password_is_required;
     }
     return null;
   }

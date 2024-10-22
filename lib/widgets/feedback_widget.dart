@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jct/language/helpers/app_localization_context_extenstion.dart';
 import 'package:jct/models/feedback_state.dart';
 import 'package:jct/screens/feedback/feedback_providers/feedback_provider.dart';
+import 'package:jct/theme/app_theme/app_theme.dart';
 
 class FeedbackWidget extends StatelessWidget {
   const FeedbackWidget({
@@ -37,13 +39,18 @@ class FeedbackWidget extends StatelessWidget {
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
+              style: TextStyle(
+                  color: context.theme.appColors.background,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.deepPurple[50],
-                hintText: 'Type your feedback here',
-                hintStyle: TextStyle(fontSize: 19, color: Colors.grey),
+                fillColor: context.theme.appColors.onPrimary,
+                hintText: context.localizedString.feedback_hint_text,
+                hintStyle: TextStyle(
+                    fontSize: 19, color: context.theme.appColors.surface),
                 errorText: feedbackState.feedback.isEmpty
-                    ? "Feedback Cannot be empty "
+                    ? context.localizedString.feedback_error
                     : null,
                 errorStyle: TextStyle(
                   fontSize: 16,
@@ -65,22 +72,24 @@ class FeedbackWidget extends StatelessWidget {
                         feedbackNotifier.setFeedback(
                             feedback: feedbackController.text);
                         feedbackNotifier.submitFeedback();
-                        feedbackController.clear();
+                        // feedbackController.clear();
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo[400],
-                          foregroundColor: Colors.white),
+                          backgroundColor: context.theme.appColors.onBackground,
+                          foregroundColor: context.theme.appColors.background),
                       child: RichText(
-                        text: const TextSpan(
-                            text: "Submit Feedback",
+                        text: TextSpan(
+                            text: context.localizedString.feedback_button,
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20)),
+                                color: context.theme.appColors.background,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
                       ),
                     ),
                   ),
             if (feedbackState.hasSubmitted) ...[
               const SizedBox(height: 16),
-              Text("Thankyou For your feedback 😊😊",
+              Text(context.localizedString.feedback_greet_to_user,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
